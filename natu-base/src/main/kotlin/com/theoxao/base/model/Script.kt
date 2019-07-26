@@ -1,6 +1,6 @@
 package com.theoxao.base.model
 
-import com.theoxao.base.loader.ScriptLoader
+import com.theoxao.base.aggron.ScriptLoader
 
 /**
  * @author theoxao
@@ -10,6 +10,8 @@ class Script {
     var scriptSource: ScriptSource? = null
 
     lateinit var content: String
+
+    lateinit var extension: String
 
     lateinit var loader: ScriptLoader
 }
