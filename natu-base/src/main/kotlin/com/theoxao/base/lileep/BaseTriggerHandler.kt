@@ -5,4 +5,6 @@ package com.theoxao.base.lileep
  * @date 2019/5/28
  */
 abstract class BaseTriggerHandler {
+
+    lateinit var name: String
 }
