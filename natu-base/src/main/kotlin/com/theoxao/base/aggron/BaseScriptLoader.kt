@@ -16,4 +16,16 @@ abstract class BaseScriptLoader {
 
     abstract fun load(): List<Script>
 
+    fun whenDelete(listener: (Script) -> Unit) {
+
+    }
+
+    fun whenCreate(listener: (Script) -> Unit) {
+
+    }
+
+    fun whenUpdate(listener: (Script) -> Unit) {
+
+    }
+
 }

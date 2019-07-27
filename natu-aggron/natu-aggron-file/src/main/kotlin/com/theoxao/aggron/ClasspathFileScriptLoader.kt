@@ -38,7 +38,6 @@ class ClasspathFileScriptLoader : BaseScriptLoader() {
         return files
     }
 
-
     private fun File.flatFiles(loader: BaseScriptLoader, parentConfig: NatuConfig?): List<Script> {
         val files = this.listFiles()
         val natu = files?.find { it.isFile && it.name == natuFileName }?.readText()
