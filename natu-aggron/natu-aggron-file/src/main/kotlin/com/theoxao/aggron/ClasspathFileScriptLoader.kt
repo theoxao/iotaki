@@ -1,13 +1,15 @@
 package com.theoxao.aggron
 
 import com.theoxao.aggron.config.FileRootConfiguration
-import com.theoxao.base.aggron.ScriptLoader
+import com.theoxao.base.aggron.BaseScriptLoader
+import com.theoxao.base.common.NatuConfig
 import com.theoxao.base.model.Script
 import com.theoxao.base.model.ScriptSource
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.util.ResourceUtils
+import org.yaml.snakeyaml.Yaml
 import java.io.File
 import javax.annotation.Resource
 
@@ -16,10 +18,10 @@ import javax.annotation.Resource
  * @date 2019/5/28
  */
 @Component
-class ClasspathFileScriptLoader : ScriptLoader() {
+class ClasspathFileScriptLoader : BaseScriptLoader() {
 
     companion object {
-        const val ignoreFileName = ".ignore"
+        const val natuFileName = "natu.yaml"
         val log: Logger = LoggerFactory.getLogger(this::class.java.name)
     }
 
@@ -31,26 +33,25 @@ class ClasspathFileScriptLoader : ScriptLoader() {
     override fun load(): List<Script> {
         val root = File(ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX).file + fileRootConfiguration.rootPath)
         assert(root.isDirectory) { "root path should be a directory instead of file" }
-        val files = root.flatFiles()
+        val files = root.flatFiles(this, null)
         log.info("load {} files from {}", files.size, fileRootConfiguration.rootPath)
-        return files.map {
-            val content = it.readText()
-            Script(ScriptSource(it.toURI(), content), content, it.extension, this)
-        }
+        return files
     }
 
 
-    private fun File.flatFiles(): List<File> {
+    private fun File.flatFiles(loader: BaseScriptLoader, parentConfig: NatuConfig?): List<Script> {
         val files = this.listFiles()
-        val ignores = files?.find { it.isFile && it.name == ignoreFileName }?.readLines()
-        return files?.filter { file ->
-            !(ignores?.map { it == file.name }?.reduce(Boolean::or) ?: false || file.name == ignoreFileName)
-        }?.flatMap {
-            val list = arrayListOf<File>()
+        val natu = files?.find { it.isFile && it.name == natuFileName }?.readText()
+        //if config does not exist , use parent config
+        val natuConfig = natu?.let { Yaml().loadAs(natu, NatuConfig::class.java) } ?: parentConfig
+        return files?.flatMap {
+            val list = arrayListOf<Script>()
             if (it.isDirectory)
-                list.addAll(it.flatFiles())
-            else
-                list.add(it)
+                list.addAll(it.flatFiles(loader, natuConfig))
+            else {
+                val content = it.readText()
+                list.add(Script(ScriptSource(it.toURI(), content), content, it.extension, loader, natuConfig))
+            }
             return@flatMap list
         } ?: arrayListOf()
     }

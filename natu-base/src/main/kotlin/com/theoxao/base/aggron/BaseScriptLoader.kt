@@ -6,7 +6,7 @@ import com.theoxao.base.model.Script
  * @author theoxao
  * @date 2019/5/28
  */
-abstract class ScriptLoader {
+abstract class BaseScriptLoader {
 
     var autoLoad = false
 
