@@ -1,4 +1,4 @@
-package groovy
+package script.groovy
 
 import java.util.concurrent.CompletableFuture;
 

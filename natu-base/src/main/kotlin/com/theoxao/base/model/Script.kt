@@ -6,12 +6,9 @@ import com.theoxao.base.aggron.ScriptLoader
  * @author theoxao
  * @date 2019/5/28
  */
-class Script {
-    var scriptSource: ScriptSource? = null
-
-    lateinit var content: String
-
-    lateinit var extension: String
-
-    lateinit var loader: ScriptLoader
-}
+class Script(
+        var scriptSource: ScriptSource,
+        var content: String,
+        var extension: String,
+        var loader: ScriptLoader
+)

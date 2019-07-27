@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration
  */
 
 @Configuration
-@ConfigurationProperties(prefix = "aggron.file")
+@ConfigurationProperties(prefix = "natu.aggron.file")
 open class FileRootConfiguration {
 
     open var rootPath: String = "script"

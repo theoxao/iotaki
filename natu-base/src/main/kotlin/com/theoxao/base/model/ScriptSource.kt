@@ -1,12 +1,13 @@
 package com.theoxao.base.model
 
+import java.net.URI
 import java.net.URL
 
 /**
  * @author theoxao
  * @date 2019/5/28
  */
-class ScriptSource(var url: URL, var content: String) {
+class ScriptSource(var url: URI, var content: String) {
 
     companion object {
         fun bkdrHash(str: String): Int {
@@ -22,7 +23,7 @@ class ScriptSource(var url: URL, var content: String) {
     var hash: Int = 0
 
     init {
-        hash = bkdrHash(content)
+        hash = content.hashCode()
     }
 
 
