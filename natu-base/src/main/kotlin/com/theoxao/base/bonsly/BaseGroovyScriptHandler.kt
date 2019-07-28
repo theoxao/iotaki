@@ -7,6 +7,4 @@ abstract class BaseGroovyScriptHandler(
         applicationContext: ApplicationContext
 ) : BaseScriptHandler() {
 
-    val triggers = applicationContext.getBeansOfType(BaseTriggerHandler::class.java)
-
 }

@@ -30,8 +30,10 @@ class ClasspathFileScriptLoader : BaseScriptLoader() {
     @Resource
     lateinit var fileRootConfiguration: FileRootConfiguration
 
+    private val classpath = ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX).file!!
+
     override fun load(): List<Script> {
-        val root = File(ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX).file + fileRootConfiguration.rootPath)
+        val root = File(classpath + fileRootConfiguration.rootPath)
         assert(root.isDirectory) { "root path should be a directory instead of file" }
         val files = root.flatFiles(this, null)
         log.info("load {} files from {}", files.size, fileRootConfiguration.rootPath)
@@ -43,7 +45,9 @@ class ClasspathFileScriptLoader : BaseScriptLoader() {
         val natu = files?.find { it.isFile && it.name == natuFileName }?.readText()
         //if config does not exist , use parent config
         val natuConfig = natu?.let { Yaml().loadAs(natu, NatuConfig::class.java) } ?: parentConfig
-        return files?.flatMap {
+        return files?.filter {
+            (natuConfig?.ignore?.contains(it.name) ?: false || it.name == natuFileName).not()
+        }?.flatMap {
             val list = arrayListOf<Script>()
             if (it.isDirectory)
                 list.addAll(it.flatFiles(loader, natuConfig))
