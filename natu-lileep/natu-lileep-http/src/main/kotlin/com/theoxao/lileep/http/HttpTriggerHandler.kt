@@ -2,8 +2,8 @@ package com.theoxao.lileep.http
 
 import com.theoxao.base.lileep.BaseTriggerHandler
 import com.theoxao.base.model.ScriptModel
-import groovy.lang.Script
 import org.springframework.stereotype.Component
+import java.lang.reflect.Method
 
 /**
  * @author theoxao
@@ -11,5 +11,13 @@ import org.springframework.stereotype.Component
  */
 @Component
 class HttpTriggerHandler : BaseTriggerHandler() {
+
+    init {
+        name = "http"
+    }
+
+    override fun parameters(method: Method?, discovery: () -> Array<String>?): Array<Any?>? = TODO()
+
     override fun handle(scriptModel: ScriptModel, invokeScript: (any: Any) -> Any) = TODO()
+
 }

@@ -22,7 +22,6 @@ class DefaultGroovyScriptHandler(
         supportedFileExtension = arrayOf("groovy", "java")
     }
 
-
     override fun handle(target: List<ScriptModel>) {
         target.forEach {
             val triggerName = it.config?.trigger?.get("name")
@@ -35,7 +34,11 @@ class DefaultGroovyScriptHandler(
             val script = defaultGroovyScriptParser.process(it.content)
             triggerHandler.handle(it) {
                 val methodName = defaultGroovyScriptParser.methodName()
-                script.invokeMethod(methodName, ScriptParamNameDiscoverer(script).getParameterNames())
+                val method = script.metaClass.theClass.methods.find { m -> m.name == methodName }
+                        ?: throw RuntimeException("can not found method")
+                script.invokeMethod(methodName, triggerHandler.parameters(method) {
+                    ScriptParamNameDiscoverer(script).getParameterNames(method)
+                })
             }
         }
     }
