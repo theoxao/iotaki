@@ -1,7 +1,7 @@
 package com.theoxao.base.bonsly
 
-import com.theoxao.base.model.Script
+import com.theoxao.base.model.ScriptModel
 
 class BaseGraalvmScriptHandler : BaseScriptHandler() {
-    override fun handle(target: List<Script>) = TODO()
+    override fun handle(target: List<ScriptModel>) = TODO()
 }

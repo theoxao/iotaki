@@ -7,7 +7,7 @@ import com.theoxao.base.common.NatuConfig
  * @author theoxao
  * @date 2019/5/28
  */
-class Script(
+class ScriptModel(
         var scriptSource: ScriptSource,
         var content: String,
         var extension: String,

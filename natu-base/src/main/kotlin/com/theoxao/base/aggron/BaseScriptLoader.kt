@@ -1,6 +1,6 @@
 package com.theoxao.base.aggron
 
-import com.theoxao.base.model.Script
+import com.theoxao.base.model.ScriptModel
 
 /**
  * @author theoxao
@@ -14,17 +14,17 @@ abstract class BaseScriptLoader {
 
     abstract fun refreshAll()
 
-    abstract fun load(): List<Script>
+    abstract fun load(): List<ScriptModel>
 
-    fun whenDelete(listener: (Script) -> Unit) {
-
-    }
-
-    fun whenCreate(listener: (Script) -> Unit) {
+    fun whenDelete(listener: (ScriptModel) -> Unit) {
 
     }
 
-    fun whenUpdate(listener: (Script) -> Unit) {
+    fun whenCreate(listener: (ScriptModel) -> Unit) {
+
+    }
+
+    fun whenUpdate(listener: (ScriptModel) -> Unit) {
 
     }
 

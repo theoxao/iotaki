@@ -3,7 +3,7 @@ package com.theoxao.core.config
 import com.theoxao.base.aggron.BaseScriptLoader
 import com.theoxao.base.bonsly.BaseScriptHandler
 import com.theoxao.base.lileep.BaseTriggerHandler
-import com.theoxao.base.model.Script
+import com.theoxao.base.model.ScriptModel
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Configuration
@@ -48,8 +48,8 @@ open class NatuAutoConfiguration(
         return null
     }
 
-    private fun loadScript(): List<Script>? {
-        return scriptLoaders?.flatMap {
+    private fun loadScript(): List<ScriptModel>? {
+        return scriptLoaders.flatMap {
             it.value.load()
         }
     }

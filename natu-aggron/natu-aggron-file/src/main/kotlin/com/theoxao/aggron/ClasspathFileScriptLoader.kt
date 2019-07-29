@@ -3,7 +3,7 @@ package com.theoxao.aggron
 import com.theoxao.aggron.config.FileRootConfiguration
 import com.theoxao.base.aggron.BaseScriptLoader
 import com.theoxao.base.common.NatuConfig
-import com.theoxao.base.model.Script
+import com.theoxao.base.model.ScriptModel
 import com.theoxao.base.model.ScriptSource
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -32,7 +32,7 @@ class ClasspathFileScriptLoader : BaseScriptLoader() {
 
     private val classpath = ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX).file!!
 
-    override fun load(): List<Script> {
+    override fun load(): List<ScriptModel> {
         val root = File(classpath + fileRootConfiguration.rootPath)
         assert(root.isDirectory) { "root path should be a directory instead of file" }
         val files = root.flatFiles(this, null)
@@ -40,7 +40,7 @@ class ClasspathFileScriptLoader : BaseScriptLoader() {
         return files
     }
 
-    private fun File.flatFiles(loader: BaseScriptLoader, parentConfig: NatuConfig?): List<Script> {
+    private fun File.flatFiles(loader: BaseScriptLoader, parentConfig: NatuConfig?): List<ScriptModel> {
         val files = this.listFiles()
         val natu = files?.find { it.isFile && it.name == natuFileName }?.readText()
         //if config does not exist , use parent config
@@ -48,12 +48,12 @@ class ClasspathFileScriptLoader : BaseScriptLoader() {
         return files?.filter {
             (natuConfig?.ignore?.contains(it.name) ?: false || it.name == natuFileName).not()
         }?.flatMap {
-            val list = arrayListOf<Script>()
+            val list = arrayListOf<ScriptModel>()
             if (it.isDirectory)
                 list.addAll(it.flatFiles(loader, natuConfig))
             else {
                 val content = it.readText()
-                list.add(Script(ScriptSource(it.toURI(), content), content, it.extension, loader, natuConfig))
+                list.add(ScriptModel(ScriptSource(it.toURI(), content), content, it.extension, loader, natuConfig))
             }
             return@flatMap list
         } ?: arrayListOf()

@@ -1,7 +1,8 @@
 package com.theoxao.base.bonsly.groovy
 
 import com.theoxao.base.bonsly.BaseGroovyScriptHandler
-import com.theoxao.base.model.Script
+import com.theoxao.base.model.ScriptModel
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -9,11 +10,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class DefaultGroovyScriptHandler(
-        applicationContext: ApplicationContext
+        applicationContext: ApplicationContext,
+        private val defaultGroovyScriptParser: DefaultGroovyScriptParser
 ) : BaseGroovyScriptHandler(applicationContext) {
 
     companion object {
-        val log = LoggerFactory.getLogger(this::class.java.name)
+        val log: Logger = LoggerFactory.getLogger(this::class.java.name)
     }
 
     init {
@@ -21,7 +23,7 @@ class DefaultGroovyScriptHandler(
     }
 
 
-    override fun handle(target: List<Script>) {
+    override fun handle(target: List<ScriptModel>) {
         target.forEach {
             val triggerName = it.config?.trigger?.get("name")
                     ?: "http"  // if trigger not supplied, using http as default
@@ -30,7 +32,11 @@ class DefaultGroovyScriptHandler(
                 log.debug("trigger named \"$triggerName\" does not exist , ignore script ${it.scriptSource.url.path}")
                 return@forEach
             }
-
+            val script = defaultGroovyScriptParser.process(it.content)
+            triggerHandler.handle(it) {
+                val methodName = defaultGroovyScriptParser.methodName()
+                script.invokeMethod(methodName, ScriptParamNameDiscoverer(script).getParameterNames())
+            }
         }
     }
 
