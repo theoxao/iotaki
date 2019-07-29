@@ -4,6 +4,7 @@ import com.theoxao.base.aggron.BaseScriptLoader
 import com.theoxao.base.bonsly.BaseScriptHandler
 import com.theoxao.base.lileep.BaseTriggerHandler
 import com.theoxao.base.model.Script
+import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Configuration
 
@@ -11,6 +12,10 @@ import org.springframework.context.annotation.Configuration
 open class NatuAutoConfiguration(
         applicationContext: ApplicationContext
 ) {
+
+    companion object {
+        val log = LoggerFactory.getLogger(this::class.java.name)
+    }
 
     private val scriptLoaders =
             applicationContext.getBeansOfType(BaseScriptLoader::class.java)
@@ -26,16 +31,13 @@ open class NatuAutoConfiguration(
     init {
         val scripts = loadScript()?.groupBy({ it.extension }, { it })
         scripts?.forEach { ext, ss ->
-            var handler = scriptHandlerCache[ext]
+            val handler = findHandler(ext)
             if (handler == null) {
-                handler = findHandler(ext)
-                handler?.let {
-                    scriptHandlerCache[ext] = it
-                }
-
+                log.debug("script handler which support \"$ext\" does not exist, skip all script with that extension")
+                return@forEach
             }
-            handler?.triggers = triggerHandlers
-            handler?.handle(ss)
+            handler.triggers = triggerHandlers
+            handler.handle(ss)
         }
     }
 
