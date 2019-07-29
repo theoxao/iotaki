@@ -9,5 +9,5 @@ import org.codehaus.groovy.transform.GroovyASTTransformationClass
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.TYPE)
-@GroovyASTTransformationClass("com.theoxao.base.script.ast.TransactionASTTransform")
+@GroovyASTTransformationClass("com.theoxao.base.bonsly.groovy.ast.TransactionASTTransform")
 annotation class Transactional

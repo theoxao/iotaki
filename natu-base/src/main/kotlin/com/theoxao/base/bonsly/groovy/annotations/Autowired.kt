@@ -9,5 +9,5 @@ import org.codehaus.groovy.transform.GroovyASTTransformationClass
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.LOCAL_VARIABLE, AnnotationTarget.FIELD)
-@GroovyASTTransformationClass("com.theoxao.base.script.ast.AutowiredASTTransform")
+@GroovyASTTransformationClass("com.theoxao.base.bonsly.groovy.ast.AutowiredASTTransform")
 annotation class Autowired
