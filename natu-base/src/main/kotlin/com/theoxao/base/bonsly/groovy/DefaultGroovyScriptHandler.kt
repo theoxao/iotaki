@@ -1,4 +1,4 @@
-package com.theoxao.bobsly.groovy
+package com.theoxao.base.bonsly.groovy
 
 import com.theoxao.base.bonsly.BaseGroovyScriptHandler
 import com.theoxao.base.model.Script

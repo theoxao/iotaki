@@ -1,4 +1,4 @@
-package com.theoxao.bobsly.groovy
+package com.theoxao.base.bonsly.groovy
 
 import groovy.lang.GroovyShell
 import groovy.lang.Script
@@ -10,7 +10,6 @@ import groovy.lang.Script
 class DefaultGroovyScriptParser {
 
     private val shell = GroovyShell()
-
 
     private fun parse(content: String) = shell.parse(content)
 

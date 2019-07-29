@@ -11,5 +11,13 @@
 
     <artifactId>natu-base</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>3.0.0-beta-1</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
