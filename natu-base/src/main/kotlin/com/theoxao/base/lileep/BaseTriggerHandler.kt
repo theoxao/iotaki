@@ -9,9 +9,7 @@ import java.lang.reflect.Method
  */
 abstract class BaseTriggerHandler {
 
-    abstract fun handle(scriptModel: ScriptModel, invokeScript: (any: Any) -> Any)
-
-    abstract fun parameters(method: Method?, discovery: () -> Array<String>?): Array<Any?>?
-
     lateinit var name: String
+
+    abstract fun handle(scriptModel: ScriptModel, invokeScript: (parameter: (Array<String>?) -> Array<Any?>?) -> Any)
 }

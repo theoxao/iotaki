@@ -32,13 +32,11 @@ class DefaultGroovyScriptHandler(
                 return@forEach
             }
             val script = defaultGroovyScriptParser.process(it.content)
-            triggerHandler.handle(it) {
+            triggerHandler.handle(it) { parameter ->
                 val methodName = defaultGroovyScriptParser.methodName()
                 val method = script.metaClass.theClass.methods.find { m -> m.name == methodName }
                         ?: throw RuntimeException("can not found method")
-                script.invokeMethod(methodName, triggerHandler.parameters(method) {
-                    ScriptParamNameDiscoverer(script).getParameterNames(method)
-                })
+                script.invokeMethod(methodName, parameter(ScriptParamNameDiscoverer(script).getParameterNames(method)))
             }
         }
     }

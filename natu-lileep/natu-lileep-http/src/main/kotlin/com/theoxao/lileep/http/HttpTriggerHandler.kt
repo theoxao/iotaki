@@ -11,13 +11,10 @@ import java.lang.reflect.Method
  */
 @Component
 class HttpTriggerHandler : BaseTriggerHandler() {
-
     init {
         name = "http"
     }
 
-    override fun parameters(method: Method?, discovery: () -> Array<String>?): Array<Any?>? = TODO()
-
-    override fun handle(scriptModel: ScriptModel, invokeScript: (any: Any) -> Any) = TODO()
+    override fun handle(scriptModel: ScriptModel, invokeScript: (parameter: (Array<String>?) -> Array<Any?>?) -> Any) = TODO()
 
 }

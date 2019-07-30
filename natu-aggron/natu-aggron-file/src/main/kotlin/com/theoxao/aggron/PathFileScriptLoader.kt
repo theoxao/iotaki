@@ -18,7 +18,7 @@ import javax.annotation.Resource
  * @date 2019/5/28
  */
 @Component
-class ClasspathFileScriptLoader : BaseScriptLoader() {
+class PathFileScriptLoader : BaseScriptLoader() {
 
     companion object {
         const val natuFileName = "natu.yaml"
