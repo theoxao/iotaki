@@ -12,4 +12,11 @@
     <artifactId>natu-bonsly-onix</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>org.graalvm.sdk</groupId>
+            <artifactId>graal-sdk</artifactId>
+            <version>19.1.0</version>
+        </dependency>
+    </dependencies>
 </project>
