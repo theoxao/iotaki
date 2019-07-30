@@ -22,8 +22,8 @@
     <dependencies>
         <dependency>
             <groupId>com.theoxao</groupId>
-            <artifactId>spring-boot-ktor</artifactId>
-            <version>0.3.40-beta</version>
+            <artifactId>natu-ktor</artifactId>
+            <version>1.0-beta</version>
         </dependency>
     </dependencies>
 
