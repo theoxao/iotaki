@@ -2,4 +2,6 @@
 #  aggron:
 #    file:
 #      root-path: /
-
+spring:
+  ktor:
+    port:9999

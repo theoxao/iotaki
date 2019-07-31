@@ -1,2 +1,4 @@
 ignore:
-  - demo.java
+  - demo.py
+  - demo.js
+  - inn.py

@@ -1,7 +1,7 @@
-package com.theoxao.base.bonsly.groovy.ast
+package com.theoxao.bonsly.groovy.ast
 
-import com.theoxao.base.bonsly.groovy.ast.JavaNodes.listNode
-import com.theoxao.base.bonsly.groovy.ast.JavaNodes.stringNode
+import com.theoxao.bonsly.groovy.ast.JavaNodes.listNode
+import com.theoxao.bonsly.groovy.ast.JavaNodes.stringNode
 import org.codehaus.groovy.GroovyException
 import org.codehaus.groovy.ast.*
 import org.codehaus.groovy.ast.expr.ArrayExpression

@@ -1,4 +1,4 @@
-package com.theoxao.base.bonsly.groovy
+package com.theoxao.bonsly.groovy
 
 import groovy.lang.GroovyShell
 import groovy.lang.Script
@@ -13,7 +13,7 @@ class DefaultGroovyScriptParser {
 
     private val shell = GroovyShell()
 
-    private fun parse(content: String) = shell.parse(content)
+    fun parse(content: String) = shell.parse(content)
 
     private fun autowired(script: Script): Script = TODO()
 
@@ -21,6 +21,6 @@ class DefaultGroovyScriptParser {
         return autowired(parse(content))
     }
 
-    fun methodName(): String = TODO()
+    fun methodName(): String = "asyncJava"
 
 }

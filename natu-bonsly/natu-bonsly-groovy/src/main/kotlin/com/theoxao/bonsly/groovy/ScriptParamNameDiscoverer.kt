@@ -1,6 +1,6 @@
-package com.theoxao.base.bonsly.groovy
+package com.theoxao.bonsly.groovy
 
-import com.theoxao.base.bonsly.groovy.ast.ParameterNameTransform.Companion.PARAMETER_NAMES_FIELD_SUFFIX
+import com.theoxao.bonsly.groovy.ast.ParameterNameTransform.Companion.PARAMETER_NAMES_FIELD_SUFFIX
 import groovy.lang.Script
 import org.springframework.core.ParameterNameDiscoverer
 import java.lang.reflect.Constructor

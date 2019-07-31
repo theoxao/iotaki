@@ -5,4 +5,4 @@ groovy.grape.GrabAnnotationTransformation
 org.codehaus.groovy.ast.builder.AstBuilderTransformation
 
 #global transformation for parameter name discoverer
-com.theoxao.base.bonsly.groovy.ast.ParameterNameTransform
+com.theoxao.bonsly.groovy.ast.ParameterNameTransform

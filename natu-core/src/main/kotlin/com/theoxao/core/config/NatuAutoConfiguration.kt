@@ -4,6 +4,8 @@ import com.theoxao.base.aggron.BaseScriptLoader
 import com.theoxao.base.bonsly.BaseScriptHandler
 import com.theoxao.base.lileep.BaseTriggerHandler
 import com.theoxao.base.model.ScriptModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Configuration
@@ -31,13 +33,16 @@ open class NatuAutoConfiguration(
     init {
         val scripts = loadScript()?.groupBy({ it.extension }, { it })
         scripts?.forEach { ext, ss ->
+
             val handler = findHandler(ext)
             if (handler == null) {
                 log.debug("script handler which support \"$ext\" does not exist, skip all script with that extension")
                 return@forEach
             }
-            handler.triggers = triggerHandlers
-            handler.handle(ss)
+            GlobalScope.launch {
+                handler.triggers = triggerHandlers
+                handler.handle(ss)
+            }
         }
     }
 

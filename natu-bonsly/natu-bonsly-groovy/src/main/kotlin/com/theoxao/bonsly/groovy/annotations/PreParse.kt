@@ -1,4 +1,4 @@
-package com.theoxao.base.bonsly.groovy.annotations
+package com.theoxao.bonsly.groovy.annotations
 
 
 /**

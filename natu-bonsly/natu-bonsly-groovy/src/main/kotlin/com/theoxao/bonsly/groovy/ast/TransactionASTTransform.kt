@@ -1,10 +1,10 @@
-package com.theoxao.base.bonsly.groovy.ast
+package com.theoxao.bonsly.groovy.ast
 
-import com.theoxao.base.bonsly.groovy.ast.JavaNodes.anyNode
-import com.theoxao.base.bonsly.groovy.ast.JavaNodes.exceptionNode
-import com.theoxao.base.bonsly.groovy.ast.JavaNodes.tmNode
-import com.theoxao.base.bonsly.groovy.ast.JavaNodes.transactionDefinitionNode
-import com.theoxao.base.bonsly.groovy.ast.JavaNodes.tsNode
+import com.theoxao.bonsly.groovy.ast.JavaNodes.anyNode
+import com.theoxao.bonsly.groovy.ast.JavaNodes.exceptionNode
+import com.theoxao.bonsly.groovy.ast.JavaNodes.tmNode
+import com.theoxao.bonsly.groovy.ast.JavaNodes.transactionDefinitionNode
+import com.theoxao.bonsly.groovy.ast.JavaNodes.tsNode
 import org.codehaus.groovy.GroovyBugError
 import org.codehaus.groovy.ast.*
 import org.codehaus.groovy.ast.expr.*

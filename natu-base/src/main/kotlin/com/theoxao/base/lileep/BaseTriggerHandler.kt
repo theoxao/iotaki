@@ -1,6 +1,7 @@
 package com.theoxao.base.lileep
 
 import com.theoxao.base.model.ScriptModel
+import org.springframework.core.ParameterNameDiscoverer
 import java.lang.reflect.Method
 
 /**
@@ -11,5 +12,5 @@ abstract class BaseTriggerHandler {
 
     lateinit var name: String
 
-    abstract fun handle(scriptModel: ScriptModel, invokeScript: (parameter: (Array<String>?) -> Array<Any?>?) -> Any)
+    abstract suspend fun handle(scriptModel: ScriptModel, invokeScript: suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?)
 }

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean
  * @author theoxao
  * @date 2019/5/28
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = ["com.theoxao"])
 open class Application {
 
     @Bean

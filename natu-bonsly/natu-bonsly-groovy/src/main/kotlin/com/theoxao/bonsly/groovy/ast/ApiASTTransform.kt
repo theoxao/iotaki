@@ -1,7 +1,7 @@
-package com.theoxao.base.bonsly.groovy.ast
+package com.theoxao.bonsly.groovy.ast
 
-import com.theoxao.base.bonsly.groovy.ast.JavaNodes.stringNode
-import com.theoxao.base.bonsly.groovy.ast.JavaNodes.metaApiNode
+import com.theoxao.bonsly.groovy.ast.JavaNodes.stringNode
+import com.theoxao.bonsly.groovy.ast.JavaNodes.metaApiNode
 import org.codehaus.groovy.GroovyBugError
 import org.codehaus.groovy.ast.ASTNode
 import org.codehaus.groovy.ast.AnnotatedNode

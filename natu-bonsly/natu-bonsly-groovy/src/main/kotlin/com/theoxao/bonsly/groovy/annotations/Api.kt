@@ -1,4 +1,4 @@
-package com.theoxao.base.bonsly.groovy.annotations
+package com.theoxao.bonsly.groovy.annotations
 
 import org.codehaus.groovy.transform.GroovyASTTransformationClass
 
@@ -9,5 +9,5 @@ import org.codehaus.groovy.transform.GroovyASTTransformationClass
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.TYPE)
-@GroovyASTTransformationClass("com.theoxao.base.bonsly.groovy.ast.ApiASTTransform")
+@GroovyASTTransformationClass("com.theoxao.bonsly.groovy.ast.ApiASTTransform")
 annotation class Api(val uri: String, val requestMethod: String = "GET", val method: String = "")

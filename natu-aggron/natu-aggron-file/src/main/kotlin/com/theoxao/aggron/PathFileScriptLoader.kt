@@ -30,10 +30,13 @@ class PathFileScriptLoader : BaseScriptLoader() {
     @Resource
     lateinit var fileRootConfiguration: FileRootConfiguration
 
-    private val classpath = ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX).file!!
+    init {
+        basePath = ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX).file!!
+    }
+
 
     override fun load(): List<ScriptModel> {
-        val root = File(classpath + fileRootConfiguration.rootPath)
+        val root = File(basePath + fileRootConfiguration.rootPath)
         assert(root.isDirectory) { "root path should be a directory instead of file" }
         val files = root.flatFiles(this, null)
         log.info("load {} files from {}", files.size, fileRootConfiguration.rootPath)

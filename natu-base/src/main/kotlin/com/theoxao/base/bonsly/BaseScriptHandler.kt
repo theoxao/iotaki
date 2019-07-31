@@ -10,5 +10,5 @@ abstract class BaseScriptHandler {
 
     lateinit var triggers: Map<String, BaseTriggerHandler>
 
-    abstract fun handle(target: List<ScriptModel>)
+    abstract suspend fun handle(target: List<ScriptModel>)
 }

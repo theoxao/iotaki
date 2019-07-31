@@ -8,8 +8,8 @@ trigger:
 
 
 # shelve TODO next
-except:
-  - name: demo.groovy
-    trigger: scheduler
-  - name: demo.java
-    trigger: mq
+#except:
+#  - name: demo.groovy
+#    trigger: scheduler
+#  - name: demo.java
+#    trigger: mq
