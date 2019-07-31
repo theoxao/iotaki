@@ -1,5 +1,5 @@
 ignore:
-  - demo.java
+  - demo.asj
 
 trigger:
   name: http
@@ -11,5 +11,5 @@ trigger:
 #except:
 #  - name: demo.groovy
 #    trigger: scheduler
-#  - name: demo.java
+#  - name: demo.asj
 #    trigger: mq
