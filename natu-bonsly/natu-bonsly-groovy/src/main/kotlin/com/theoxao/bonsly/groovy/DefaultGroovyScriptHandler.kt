@@ -2,16 +2,11 @@ package com.theoxao.bonsly.groovy
 
 import com.theoxao.base.bonsly.BaseGroovyScriptHandler
 import com.theoxao.base.model.ScriptModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import groovy.lang.GroovyClassLoader
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
-import java.lang.reflect.Method
-import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
-import kotlin.reflect.jvm.kotlinFunction
 
 
 @Component
@@ -36,13 +31,16 @@ class DefaultGroovyScriptHandler(
                 log.debug("trigger named \"$triggerName\" does not exist , ignore script ${it.scriptSource.url.path}")
                 return@forEach
             }
+            val parseClass = GroovyClassLoader().parseClass(it.content)
             val script = defaultGroovyScriptParser.parse(it.content)
 //            val script = defaultGroovyScriptParser.process(it.content)
             triggerHandler.handle(it) { parameter ->
                 val methodName = defaultGroovyScriptParser.methodName()
-                val method = script.metaClass.theClass.methods.find { m -> m.name == methodName }
-                        ?: throw RuntimeException("can not found method")
-                script.invokeMethod(methodName, parameter(method, ScriptParamNameDiscoverer(script)))
+                val method = parseClass.methods.find { m -> m.name == methodName }
+                        ?: throw RuntimeException("exterminate")
+                val instance = parseClass.newInstance()
+                method.invoke(instance, parameter(method, ScriptParamNameDiscoverer(script)))
+//                script.invokeMethod(methodName, parameter(method, ScriptParamNameDiscoverer(script)))
             }
         }
     }
