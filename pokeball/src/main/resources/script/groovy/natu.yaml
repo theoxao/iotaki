@@ -1,5 +1,6 @@
 ignore:
-  - demo
+  - demo.groo
+  - nul.groovy
 
 trigger:
   name: http

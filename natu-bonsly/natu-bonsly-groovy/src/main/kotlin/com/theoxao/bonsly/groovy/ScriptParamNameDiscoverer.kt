@@ -2,6 +2,8 @@ package com.theoxao.bonsly.groovy
 
 import com.theoxao.bonsly.groovy.ast.ParameterNameTransform.Companion.PARAMETER_NAMES_FIELD_SUFFIX
 import groovy.lang.Script
+import org.codehaus.groovy.runtime.InvokerHelper
+import org.omg.CORBA.portable.InvokeHandler
 import org.springframework.core.ParameterNameDiscoverer
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
@@ -12,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap
  * @author theo
  * @date 2019/6/20
  */
-class ScriptParamNameDiscoverer(val script: Script) : ParameterNameDiscoverer {
+class ScriptParamNameDiscoverer(val clazz: Class<Any>) : ParameterNameDiscoverer {
 
     companion object {
         val cache = object : ConcurrentHashMap<String, Array<String>>() {
@@ -32,7 +34,7 @@ class ScriptParamNameDiscoverer(val script: Script) : ParameterNameDiscoverer {
     override fun getParameterNames(method: Method): Array<String>? {
         var pns = cache[method.signature()]
         if (pns == null) {
-            val property = script.getProperty("${method.name}$PARAMETER_NAMES_FIELD_SUFFIX")
+            val property = InvokerHelper.invokeMethod(clazz, "${method.name}$PARAMETER_NAMES_FIELD_SUFFIX", null)
             pns = (property as ArrayList<String>).toTypedArray()
             cache[method.signature()] = pns
         }

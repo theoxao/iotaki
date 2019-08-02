@@ -2,8 +2,8 @@ package script.groovy
 
 import java.util.concurrent.CompletableFuture;
 
-public static CompletableFuture<CompletableFuture<String>> asyncJava() {
-    CompletableFuture<String> meFuture = future("theo");
+public static CompletableFuture<CompletableFuture<String>> asyncJava(String name) {
+    CompletableFuture<String> meFuture = future(name);
     return meFuture.thenApply { me ->
         CompletableFuture<String> youFuture = future("sophia");
         return youFuture.thenApply { you ->

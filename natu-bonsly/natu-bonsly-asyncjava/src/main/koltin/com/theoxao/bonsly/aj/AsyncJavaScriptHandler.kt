@@ -23,6 +23,7 @@ class AsyncJavaScriptHandler(
         target.forEach {
             it.content = preParser.preParse(it.content)
         }
+        groovyScriptHandler.triggers = triggers
         groovyScriptHandler.handle(target)
     }
 
