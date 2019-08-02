@@ -3,10 +3,14 @@ package com.theoxao.bonsly.groovy
 import com.theoxao.base.bonsly.BaseGroovyScriptHandler
 import com.theoxao.base.model.ScriptModel
 import groovy.lang.GroovyClassLoader
+import org.checkerframework.common.reflection.qual.Invoke
+import org.codehaus.groovy.runtime.InvokerHelper
+import org.omg.CORBA.portable.InvokeHandler
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
+import java.lang.Exception
 
 
 @Component
@@ -34,13 +38,14 @@ class DefaultGroovyScriptHandler(
             val parseClass = GroovyClassLoader().parseClass(it.content)
             val script = defaultGroovyScriptParser.parse(it.content)
 //            val script = defaultGroovyScriptParser.process(it.content)
+//            val ih= script as InvokerHelper
+            val metaClass = InvokerHelper.getMetaClass(parseClass)
+            val methodName = defaultGroovyScriptParser.methodName()
+            val method = metaClass.theClass.methods.find { m -> m.name == methodName }
+                    ?: throw RuntimeException("exterminate")
             triggerHandler.handle(it) { parameter ->
-                val methodName = defaultGroovyScriptParser.methodName()
-                val method = parseClass.methods.find { m -> m.name == methodName }
-                        ?: throw RuntimeException("exterminate")
                 val instance = parseClass.newInstance()
-                method.invoke(instance, parameter(method, ScriptParamNameDiscoverer(script)))
-//                script.invokeMethod(methodName, parameter(method, ScriptParamNameDiscoverer(script)))
+                InvokerHelper.invokeMethod(parseClass, methodName, null)
             }
         }
     }
