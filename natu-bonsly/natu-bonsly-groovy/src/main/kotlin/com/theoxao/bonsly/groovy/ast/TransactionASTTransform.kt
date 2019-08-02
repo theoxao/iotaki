@@ -38,6 +38,7 @@ open class TransactionASTTransform : ASTTransformation, ClassCodeExpressionTrans
         if (tsNode == null || tmNode == null || transactionDefinitionNode == null) {
             log.info("PlatformTransactionManager.class not found, make sure you have dependency on spring-tx ")
             log.info("skip transaction ast transform since TransactionManager is not supplied")
+            return
         }
         sourceUnit = source
         if (nodes.size != 2 || nodes[0] !is AnnotationNode || nodes[1] !is AnnotatedNode) {

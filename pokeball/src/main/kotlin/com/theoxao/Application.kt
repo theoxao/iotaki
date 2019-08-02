@@ -11,16 +11,7 @@ import org.springframework.context.annotation.Bean
  * @date 2019/5/28
  */
 @SpringBootApplication(scanBasePackages = ["com.theoxao"])
-open class Application {
-
-    @Bean
-    open fun runner(scriptLoader: BaseScriptLoader): CommandLineRunner {
-        return CommandLineRunner {
-            scriptLoader.load()
-        }
-    }
-
-}
+open class Application
 
 fun main(args: Array<String>) {
     runApplication<Application>(*args)

@@ -45,7 +45,7 @@ class DefaultGroovyScriptHandler(
                     ?: throw RuntimeException("exterminate")
             triggerHandler.handle(it) { parameter ->
                 val instance = parseClass.newInstance()
-                InvokerHelper.invokeMethod(parseClass, methodName, null)
+                InvokerHelper.invokeMethod(parseClass, methodName, parameter(method, ScriptParamNameDiscoverer(script)))
             }
         }
     }

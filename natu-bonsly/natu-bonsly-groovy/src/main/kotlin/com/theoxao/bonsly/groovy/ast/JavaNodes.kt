@@ -10,7 +10,19 @@ object JavaNodes {
     val anyNode = make(Any::class.java)!!
     val exceptionNode = make(Exception::class.java)!!
 
-    val tsNode: ClassNode? = make(Class.forName("org.springframework.transaction.TransactionStatus"))
-    val tmNode: ClassNode? = make(Class.forName("org.springframework.transaction.PlatformTransactionManager"))
-    val transactionDefinitionNode: ClassNode? = make(Class.forName("org.springframework.transaction.support.DefaultTransactionDefinition"))
+    val tsNode: ClassNode? = try {
+        make(Class.forName("org.springframework.transaction.TransactionStatus"))
+    } catch (ignore: ClassNotFoundException) {
+        null
+    }
+    val tmNode: ClassNode? = try {
+        make(Class.forName("org.springframework.transaction.PlatformTransactionManager"))
+    } catch (ignore: ClassNotFoundException) {
+        null
+    }
+    val transactionDefinitionNode: ClassNode? = try {
+        make(Class.forName("org.springframework.transaction.support.DefaultTransactionDefinition"))
+    } catch (ignore: ClassNotFoundException) {
+        null
+    }
 }
