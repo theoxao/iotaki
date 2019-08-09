@@ -1,6 +1,14 @@
 package script.groovy
 
+import com.theoxao.BarBean
+import com.theoxao.bonsly.groovy.annotations.Autowired
+import groovy.transform.Field
+
 import java.util.concurrent.CompletableFuture;
+
+@Field
+@Autowired
+BarBean barBean
 
 public static CompletableFuture<CompletableFuture<String>> asyncJava(String name) {
     CompletableFuture<String> meFuture = future(name);

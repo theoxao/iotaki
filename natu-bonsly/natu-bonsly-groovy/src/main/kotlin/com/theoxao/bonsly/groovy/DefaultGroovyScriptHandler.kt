@@ -2,6 +2,7 @@ package com.theoxao.bonsly.groovy
 
 import com.theoxao.base.bonsly.BaseGroovyScriptHandler
 import com.theoxao.base.model.ScriptModel
+import com.theoxao.bonsly.groovy.ast.AutowiredASTTransform.Companion.AUTOWIRE_BEAN_SUFFIX
 import groovy.lang.GroovyClassLoader
 import groovy.lang.GroovySystem
 import org.codehaus.groovy.runtime.InvokerHelper
@@ -38,6 +39,9 @@ class DefaultGroovyScriptHandler(
             val methodName = defaultGroovyScriptParser.methodName()
             val method = metaClass.theClass.methods.find { m -> m.name == methodName }
                     ?: throw RuntimeException("exterminate")
+            metaClass.theClass.declaredFields
+                    .filter { ce -> ce.name.endsWith(AUTOWIRE_BEAN_SUFFIX) }
+                    .forEach { ce -> }
             triggerHandler.handle(it) { parameter ->
                 InvokerHelper.invokeMethod(parseClass, methodName, parameter(method, ScriptParamNameDiscoverer(parseClass)))
             }
