@@ -29,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>com.theoxao</groupId>
-            <artifactId>natu-lileep-http</artifactId>
+            <artifactId>natu-lileep-shell</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
