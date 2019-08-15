@@ -41,7 +41,6 @@ class DefaultGroovyScriptHandler(
                     ?: throw RuntimeException("exterminate")
             metaClass.theClass.declaredFields
                     .filter { ce -> ce.name.endsWith(AUTOWIRE_BEAN_SUFFIX) }
-                    .forEach { ce -> }
             triggerHandler.handle(it) { parameter ->
                 InvokerHelper.invokeMethod(parseClass, methodName, parameter(method, ScriptParamNameDiscoverer(parseClass)))
             }

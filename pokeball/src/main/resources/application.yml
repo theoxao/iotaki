@@ -5,3 +5,5 @@
 spring:
   ktor:
     port:9999
+  aop:
+    proxy-target-class: true

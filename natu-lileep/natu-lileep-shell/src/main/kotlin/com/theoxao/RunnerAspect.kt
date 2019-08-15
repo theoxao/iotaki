@@ -1,5 +1,6 @@
 package com.theoxao
 
+import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
 import org.springframework.stereotype.Component
@@ -12,9 +13,9 @@ import org.springframework.stereotype.Component
 @Component
 class RunnerAspect {
 
-    @Before("execution(* org.springframework.shell.Shell.evaluate(..))")
-    fun before() {
-        println("i am in")
+    @Before(value = "execution(public * org.springframework.shell.Shell.*(..))")
+    fun before(joinPoint: JoinPoint) {
+        println(joinPoint.signature.toLongString())
     }
 
 }
