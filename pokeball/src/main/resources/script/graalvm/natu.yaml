@@ -1,0 +1,4 @@
+ignore:
+  - demo.py
+  - demo.js
+  - inn.py

@@ -12,4 +12,19 @@
     <artifactId>natu-lileep-http</artifactId>
 
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.theoxao</groupId>
+            <artifactId>natu-ktor</artifactId>
+            <version>1.0-beta</version>
+        </dependency>
+    </dependencies>
+
 </project>

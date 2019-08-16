@@ -1,0 +1,9 @@
+#natu:
+#  aggron:
+#    file:
+#      root-path: /
+spring:
+  ktor:
+    port:9999
+  aop:
+    proxy-target-class: true

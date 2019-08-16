@@ -14,6 +14,7 @@
     <modules>
         <module>natu-lileep-scheduler</module>
         <module>natu-lileep-http</module>
+        <module>natu-lileep-shell</module>
     </modules>
 
     <dependencies>

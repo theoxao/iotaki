@@ -15,6 +15,7 @@
         <module>natu-bonsly-onix</module>
         <module>natu-bonsly-asyncjava</module>
         <module>natu-bonsly-shit</module>
+        <module>natu-bonsly-groovy</module>
     </modules>
 
     <dependencies>

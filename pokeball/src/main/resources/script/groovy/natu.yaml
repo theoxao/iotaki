@@ -1,0 +1,16 @@
+ignore:
+  - demo.groo
+  - nul.groovy
+
+trigger:
+  name: http
+  type: path
+
+
+
+# shelve TODO next
+#except:
+#  - name: demo.groovy
+#    trigger: scheduler
+#  - name: demo.asj
+#    trigger: mq
