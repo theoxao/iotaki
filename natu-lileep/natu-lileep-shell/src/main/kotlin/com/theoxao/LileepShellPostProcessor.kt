@@ -16,22 +16,21 @@ import javax.annotation.Resource
  * @date 19-8-15
  */
 @Component
-@Import(ResultHandlerConfig::class)
 class LileepShellPostProcessor : BeanPostProcessor {
 
     @Resource
     private lateinit var defaultListableBeanFactory: DefaultListableBeanFactory
 
     @Resource
-    @Qualifier("main")
-    private lateinit var resultHandler: ResultHandler<Any>
+    @Qualifier("future")
+    private lateinit var futureResultHandler: FutureResultHandler<Any>
 
     override fun postProcessAfterInitialization(bean: Any, beanName: String): Any? {
 
         if (bean is Shell && beanName == "shell" && defaultListableBeanFactory.containsBean("shell")) {
             defaultListableBeanFactory.removeBeanDefinition("shell")
             defaultListableBeanFactory.registerBeanDefinition("shell", BeanDefinitionBuilder.genericBeanDefinition(LileepShell::class.java).beanDefinition)
-            return LileepShell(resultHandler)
+            return LileepShell(futureResultHandler)
         }
         return bean
     }

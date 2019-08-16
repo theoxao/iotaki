@@ -2,9 +2,10 @@ package com.theoxao
 
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
-import kotlinx.coroutines.launch
 import org.springframework.core.ParameterNameDiscoverer
-import org.springframework.shell.*
+import org.springframework.shell.CommandNotFound
+import org.springframework.shell.Input
+import org.springframework.shell.Shell
 import java.lang.reflect.Method
 import java.util.stream.Collectors
 
@@ -13,10 +14,14 @@ import java.util.stream.Collectors
  * @date 19-8-15
  */
 
-class LileepShell(private val resultHandler: ResultHandler<Any>) : Shell(resultHandler) {
+class LileepShell(private val resultHandler: FutureResultHandler<Any>) : Shell(resultHandler) {
 
     private val scriptMap =
             mutableMapOf<String, suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?>()
+
+    suspend fun addScript(name: String, invoke: suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?) {
+        this.scriptMap[name] = invoke
+    }
 
     override fun evaluate(input: Input): Any {
         if (noInput(input)) {

@@ -3,7 +3,7 @@ ignore:
   - nul.groovy
 
 trigger:
-  name: http
+  name: shell
   type: path
 
 
