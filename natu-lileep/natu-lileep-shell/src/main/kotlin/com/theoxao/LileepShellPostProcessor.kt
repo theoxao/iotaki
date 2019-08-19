@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.config.BeanPostProcessor
 import org.springframework.beans.factory.support.BeanDefinitionBuilder
 import org.springframework.beans.factory.support.DefaultListableBeanFactory
-import org.springframework.context.annotation.Import
-import org.springframework.shell.ResultHandler
 import org.springframework.shell.Shell
-import org.springframework.shell.result.ResultHandlerConfig
 import org.springframework.stereotype.Component
 import javax.annotation.Resource
 

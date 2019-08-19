@@ -19,6 +19,18 @@ class LileepShell(private val resultHandler: FutureResultHandler<Any>) : Shell(r
     private val scriptMap =
             mutableMapOf<String, suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?>()
 
+    private val embeddedCommand =
+            mutableMapOf<String, () -> Any>()
+
+    init {
+        embeddedCommand["help"] = {
+            "default: \n" +
+                    embeddedCommand.keys.joinToString("\n") + "\n\n" +
+                    "custom: \n" +
+                    scriptMap.keys.joinToString("\n")
+        }
+    }
+
     suspend fun addScript(name: String, invoke: suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?) {
         this.scriptMap[name] = invoke
     }
@@ -29,6 +41,9 @@ class LileepShell(private val resultHandler: FutureResultHandler<Any>) : Shell(r
         }
         val words = input.words()
         val line = input.words().stream().collect(Collectors.joining(" ")).trim { it <= ' ' }
+        if (embeddedCommand.containsKey(line)) {
+            return embeddedCommand[line]?.invoke() ?: return CommandNotFound(words)
+        }
         if (scriptMap.containsKey(line)) {
             return GlobalScope.future {
                 scriptMap[line]?.invoke { _, _ ->
@@ -45,5 +60,6 @@ class LileepShell(private val resultHandler: FutureResultHandler<Any>) : Shell(r
                 || input.words().size == 1 && input.words()[0].trim { it <= ' ' }.isEmpty()
                 || input.words().iterator().next().matches("\\s*//.*".toRegex()))
     }
+
 
 }
