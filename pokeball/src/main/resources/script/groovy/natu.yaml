@@ -1,9 +1,9 @@
 ignore:
-  - demo.groo
+  - demo.asj
   - nul.groovy
 
 trigger:
-  name: shell
+  name: amqp
   type: path
 
 

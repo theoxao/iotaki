@@ -8,9 +8,10 @@
         <module>natu-core</module>
         <module>natu-bonsly</module>
         <module>natu-lileep</module>
-        <module>pokeball</module>
         <module>natu-base</module>
         <module>natu-aggron</module>
+        <module>pokeball</module>
+        <module>pokemon</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

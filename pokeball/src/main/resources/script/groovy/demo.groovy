@@ -11,15 +11,18 @@ import java.util.concurrent.CompletableFuture;
 BarBean barBean
 
 public static CompletableFuture<CompletableFuture<String>> asyncJava(String name, String age) {
-    CompletableFuture<String> meFuture = future(name, age);
+    println name
+    CompletableFuture<String> meFuture = future(name);
     return meFuture.thenApply { me ->
-        CompletableFuture<String> youFuture = future("sophia", "18");
+        CompletableFuture<String> youFuture = future("sophia");
         return youFuture.thenApply { you ->
-            return me.concat(you);
+            def concat = me.concat(you)
+            println concat
+            return concat;
         }
     }
 }
 
-public static CompletableFuture<String> future(String name, String age) {
-    return CompletableFuture.completedFuture(name + "(" + age + ") from future;");
+public static CompletableFuture<String> future(String name) {
+    return CompletableFuture.completedFuture(name + " from future;");
 }
