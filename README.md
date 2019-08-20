@@ -24,3 +24,4 @@
 * __natu-lileep-http__ http触发器
 * __natu-lileep-scheduler__ 定时任务触发器
 * __natu-lileep-shell__ 基于spring shell交互式命令行
+* __natu-lileep-amqp__ rabbitmq消息触发器
