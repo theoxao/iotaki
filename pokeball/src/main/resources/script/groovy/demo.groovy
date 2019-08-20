@@ -10,16 +10,16 @@ import java.util.concurrent.CompletableFuture;
 @Autowired
 BarBean barBean
 
-public static CompletableFuture<CompletableFuture<String>> asyncJava(String name) {
-    CompletableFuture<String> meFuture = future(name);
+public static CompletableFuture<CompletableFuture<String>> asyncJava(String name, String age) {
+    CompletableFuture<String> meFuture = future(name, age);
     return meFuture.thenApply { me ->
-        CompletableFuture<String> youFuture = future("sophia");
+        CompletableFuture<String> youFuture = future("sophia", "18");
         return youFuture.thenApply { you ->
             return me.concat(you);
         }
     }
 }
 
-public static CompletableFuture<String> future(String name) {
-    return CompletableFuture.completedFuture(name + " from future;");
+public static CompletableFuture<String> future(String name, String age) {
+    return CompletableFuture.completedFuture(name + "(" + age + ") from future;");
 }
