@@ -1,4 +1,4 @@
-package com.theoxao
+package com.theoxao.lileep.shell
 
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.config.BeanPostProcessor

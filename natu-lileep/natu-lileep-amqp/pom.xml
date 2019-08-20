@@ -3,28 +3,25 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>natu</artifactId>
+        <artifactId>natu-lileep</artifactId>
         <groupId>com.theoxao</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>natu-lileep</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>natu-lileep-scheduler</module>
-        <module>natu-lileep-http</module>
-        <module>natu-lileep-shell</module>
-        <module>natu-lileep-amqp</module>
-    </modules>
+    <artifactId>natu-lileep-amqp</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.theoxao</groupId>
-            <artifactId>natu-base</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>2.1.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>2.1.4.RELEASE</version>
         </dependency>
     </dependencies>
-
 
 </project>

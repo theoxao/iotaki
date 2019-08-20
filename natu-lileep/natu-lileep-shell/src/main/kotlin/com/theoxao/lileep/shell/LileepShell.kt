@@ -1,4 +1,4 @@
-package com.theoxao
+package com.theoxao.lileep.shell
 
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
@@ -21,7 +21,7 @@ class LileepShell(private val resultHandler: FutureResultHandler<Any>) : Shell(r
 
 
     init {
-        scriptMap["help"] = {
+        scriptMap["list"] = {
             "\n" +
                     scriptMap.keys.joinToString("\n")
         }

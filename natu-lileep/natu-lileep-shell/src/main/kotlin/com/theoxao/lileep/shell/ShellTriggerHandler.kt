@@ -1,4 +1,4 @@
-package com.theoxao
+package com.theoxao.lileep.shell
 
 import com.theoxao.base.lileep.BaseTriggerHandler
 import com.theoxao.base.model.ScriptModel
