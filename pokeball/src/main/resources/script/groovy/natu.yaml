@@ -1,5 +1,5 @@
 ignore:
-  - demo.asj
+  - demo.groovy
   - nul.groovy
 
 trigger:

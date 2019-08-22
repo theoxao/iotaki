@@ -16,7 +16,7 @@ open class Application {
     @Bean
     open fun runner(rabbitTemplate: RabbitTemplate): CommandLineRunner {
         return CommandLineRunner {
-            rabbitTemplate.convertAndSend("script/groovy/demo.groovy", " hello there ")
+            rabbitTemplate.convertAndSend("script/groovy/nul.groovy", " hello there ")
         }
     }
 }

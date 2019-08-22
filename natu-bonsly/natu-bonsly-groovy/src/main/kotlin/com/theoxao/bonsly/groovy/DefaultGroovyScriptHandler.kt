@@ -4,6 +4,7 @@ import com.theoxao.base.bonsly.BaseGroovyScriptHandler
 import com.theoxao.base.model.ScriptModel
 import com.theoxao.bonsly.groovy.ast.AutowiredASTTransform.Companion.AUTOWIRE_BEAN_SUFFIX
 import groovy.lang.GroovyClassLoader
+import groovy.lang.GroovyShell
 import groovy.lang.GroovySystem
 import org.codehaus.groovy.runtime.InvokerHelper
 import org.slf4j.Logger
@@ -20,6 +21,7 @@ class DefaultGroovyScriptHandler(
 
     companion object {
         val log: Logger = LoggerFactory.getLogger(this::class.java.name)
+        val shell = GroovyShell(this::class.java.classLoader)
     }
 
     init {
@@ -34,7 +36,8 @@ class DefaultGroovyScriptHandler(
                 log.debug("trigger named \"$triggerName\" does not exist , ignore script ${it.scriptSource.url.path}")
                 return@forEach
             }
-            val parseClass = GroovyClassLoader().parseClass(it.content)
+            val parsed = shell.parse(it.content)
+            val parseClass = GroovyClassLoader().parseClass(it.content, it.scriptSource.url.path)
             val metaClass = InvokerHelper.getMetaClass(parseClass)
             val methodName = defaultGroovyScriptParser.methodName()
             val method = metaClass.theClass.methods.find { m -> m.name == methodName }
