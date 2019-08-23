@@ -1,27 +1,19 @@
-import com.theoxao.BarBean
-import com.theoxao.bonsly.groovy.annotations.Autowired
+import java.util.concurrent.CompletableFuture;
+import com.theoxao.BarBean;
+import com.theoxao.bonsly.groovy.annotations.Autowired;
 
-import java.util.concurrent.CompletableFuture
+public static CompletableFuture<CompletableFuture<String>> asyncJava() {
+    CompletableFuture<String> meFuture = future("theo");
+    return meFuture.thenApply { me ->
 
-class Foo {
+        CompletableFuture<String> youFuture = future("sophia");
+        return youFuture.thenApply { you ->
 
-    @Autowired
-    BarBean barBean;
-
-    public CompletableFuture<CompletableFuture<String>> asyncJava(String name) {
-        CompletableFuture<String> meFuture = future(name);
-        return meFuture.thenApply { me ->
-
-            CompletableFuture<String> youFuture = future("sophia");
-            return youFuture.thenApply { you ->
-
-                return me.concat(you);
-            }
+            return me.concat(you);
         }
-    }
-
-    public CompletableFuture<String> future(String name) {
-        return CompletableFuture.completedFuture(name + " from future;");
     }
 }
 
+public static CompletableFuture<String> future(String name) {
+    return CompletableFuture.completedFuture(name + " from future;");
+}

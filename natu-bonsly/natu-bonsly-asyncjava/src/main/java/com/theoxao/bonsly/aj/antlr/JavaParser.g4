@@ -45,8 +45,7 @@ importDeclaration
 
 typeDeclaration
     : classOrInterfaceModifier*
-      (classDeclaration | enumDeclaration | interfaceDeclaration | annotationTypeDeclaration)
-    | methodDeclaration
+      (classDeclaration | enumDeclaration | interfaceDeclaration | annotationTypeDeclaration | methodDeclaration)
     | ';'
     ;
 

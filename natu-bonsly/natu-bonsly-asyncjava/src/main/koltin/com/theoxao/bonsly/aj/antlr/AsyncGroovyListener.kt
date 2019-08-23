@@ -45,15 +45,8 @@ class AsyncGroovyListener(private val tokenStream: TokenStream) : JavaParserBase
 
     }
 
-    override fun enterClassDeclaration(ctx: JavaParser.ClassDeclarationContext) {
-        hasClass = true
-        writer.insertBefore(ctx.start, "import java.util.concurrent.CompletableFuture; \n")
-    }
-
-    override fun enterMethodDeclaration(ctx: JavaParser.MethodDeclarationContext) {
-        if (hasClass.not()) {
-            writer.insertBefore(ctx.start, "import java.util.concurrent.CompletableFuture;\n")
-        }
+    override fun enterPackageDeclaration(ctx: JavaParser.PackageDeclarationContext) {
+        writer.insertAfter(ctx.stop, "import java.util.concurrent.CompletableFuture; \n")
     }
 
     fun whatDidYouHear(): String {

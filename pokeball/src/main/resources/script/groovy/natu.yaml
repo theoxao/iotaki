@@ -3,7 +3,7 @@ ignore:
   - nul.groovy
 
 trigger:
-  name: amqp
+  name: shell
   type: path
 
 

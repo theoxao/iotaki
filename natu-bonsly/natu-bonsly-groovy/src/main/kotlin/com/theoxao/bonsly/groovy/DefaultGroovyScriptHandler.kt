@@ -2,10 +2,8 @@ package com.theoxao.bonsly.groovy
 
 import com.theoxao.base.bonsly.BaseGroovyScriptHandler
 import com.theoxao.base.model.ScriptModel
-import com.theoxao.bonsly.groovy.ast.AutowiredASTTransform.Companion.AUTOWIRE_BEAN_SUFFIX
-import groovy.lang.GroovyClassLoader
-import groovy.lang.GroovyShell
-import groovy.lang.GroovySystem
+import groovy.lang.MetaClass
+import groovy.util.DelegatingScript
 import org.codehaus.groovy.runtime.InvokerHelper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -21,7 +19,7 @@ class DefaultGroovyScriptHandler(
 
     companion object {
         val log: Logger = LoggerFactory.getLogger(this::class.java.name)
-        val shell = GroovyShell(this::class.java.classLoader)
+        val shell = BonslyGroovyShell()
     }
 
     init {
@@ -37,15 +35,23 @@ class DefaultGroovyScriptHandler(
                 return@forEach
             }
             val parsed = shell.parse(it.content)
-            val parseClass = GroovyClassLoader().parseClass(it.content, it.scriptSource.url.path)
-            val metaClass = InvokerHelper.getMetaClass(parseClass)
+
             val methodName = defaultGroovyScriptParser.methodName()
-            val method = metaClass.theClass.methods.find { m -> m.name == methodName }
-                    ?: throw RuntimeException("exterminate")
-            metaClass.theClass.declaredFields
-                    .filter { ce -> ce.name.endsWith(AUTOWIRE_BEAN_SUFFIX) }
+            var obj: Any
+            var metaClass: MetaClass
+            if (parsed is DelegatingScript) {
+                obj = parsed.delegate
+                metaClass = InvokerHelper.getMetaClass(obj)
+            } else {
+                obj = parsed
+                metaClass = parsed.metaClass
+            }
+
+            val method = metaClass.theClass.methods.firstOrNull { ce -> ce.name == methodName }
+                    ?: throw RuntimeException("method $methodName not found exception")
             triggerHandler.handle(it) { parameter ->
-                InvokerHelper.invokeMethod(parseClass, methodName, parameter(method, ScriptParamNameDiscoverer(parseClass)))
+                val result = metaClass.invokeMethod(obj, methodName, parameter.invoke(method, ScriptParamNameDiscoverer(metaClass, obj)))
+                result
             }
         }
     }
