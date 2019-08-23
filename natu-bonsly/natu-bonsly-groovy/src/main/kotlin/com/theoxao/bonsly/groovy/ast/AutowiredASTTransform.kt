@@ -3,7 +3,13 @@ package com.theoxao.bonsly.groovy.ast
 import ch.qos.logback.classic.util.StatusViaSLF4JLoggerFactory.addError
 import org.codehaus.groovy.GroovyBugError
 import org.codehaus.groovy.ast.*
+import org.codehaus.groovy.ast.expr.ArrayExpression
+import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.ast.expr.DeclarationExpression
+import org.codehaus.groovy.ast.expr.Expression
+import org.codehaus.groovy.ast.stmt.BlockStatement
+import org.codehaus.groovy.ast.stmt.ReturnStatement
+import org.codehaus.groovy.ast.tools.GenericsUtils
 import org.codehaus.groovy.control.CompilePhase
 import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.transform.ASTTransformation
@@ -18,7 +24,7 @@ import org.codehaus.groovy.transform.GroovyASTTransformation
 class AutowiredASTTransform : ASTTransformation {
 
     companion object {
-        const val AUTOWIRE_BEAN_SUFFIX = "\$autowire"
+        const val AUTOWIRE_BEAN = "\$autowireBeans"
     }
 
 
@@ -28,6 +34,7 @@ class AutowiredASTTransform : ASTTransformation {
         }
         val annotationNode = nodes[0]
         val de = nodes[1]
+
         if (de is DeclarationExpression) {
             val cNode = de.declaringClass
             if (de.isMultipleAssignmentDeclaration) {
@@ -42,9 +49,31 @@ class AutowiredASTTransform : ASTTransformation {
 //            cNode.addProperty(PropertyNode(fieldNode, ve.modifiers, null, null))
 //            fieldNode.setSourcePosition(de)
             val autowireNode =
-                    FieldNode("$variableName$AUTOWIRE_BEAN_SUFFIX", ve.modifiers, ve.type, null, de.rightExpression)
+                    FieldNode("$variableName$AUTOWIRE_BEAN", ve.modifiers, ve.type, null, de.rightExpression)
 //            cNode.addField(autowireNode)
             cNode.addProperty(PropertyNode(autowireNode, ve.modifiers, null, null))
+        }
+        if (de is FieldNode) {
+            val cNode = de.declaringClass
+            val method: MethodNode =
+                    if (cNode.hasMethod(AUTOWIRE_BEAN, arrayOf())) {
+                        cNode.getMethod(AUTOWIRE_BEAN, arrayOf())
+                    } else {
+                        val listNode = GenericsUtils.makeClassSafeWithGenerics(JavaNodes.listNode, GenericsType(JavaNodes.stringNode))
+                        val returnStatement = ReturnStatement(
+                                ArrayExpression(JavaNodes.stringNode, null)
+                        )
+                        val block = BlockStatement()
+                        block.addStatement(returnStatement)
+                        val method = MethodNode(AUTOWIRE_BEAN, de.modifiers, listNode, arrayOf(), arrayOf(), block)
+                        method.declaringClass = de.declaringClass
+                        cNode.addMethod(method)
+                        method
+                    }
+            val returnStatement = ((method.code as BlockStatement).statements[0] as ReturnStatement)
+            val list = arrayListOf<Expression>(ConstantExpression(de.name))
+            list.addAll((returnStatement.expression as ArrayExpression).expressions)
+            returnStatement.expression = ArrayExpression(JavaNodes.stringNode, list)
         }
     }
 }

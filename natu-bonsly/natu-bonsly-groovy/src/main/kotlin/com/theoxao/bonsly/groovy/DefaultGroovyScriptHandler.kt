@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component
 @Component
 class DefaultGroovyScriptHandler(
         applicationContext: ApplicationContext,
-        private val defaultGroovyScriptParser: DefaultGroovyScriptParser
+        private val groovyScriptParser: DefaultGroovyScriptParser
 ) : BaseGroovyScriptHandler(applicationContext) {
 
     companion object {
         val log: Logger = LoggerFactory.getLogger(this::class.java.name)
-        val shell = BonslyGroovyShell()
+
     }
 
     init {
@@ -34,11 +34,10 @@ class DefaultGroovyScriptHandler(
                 log.debug("trigger named \"$triggerName\" does not exist , ignore script ${it.scriptSource.url.path}")
                 return@forEach
             }
-            val parsed = shell.parse(it.content)
-
-            val methodName = defaultGroovyScriptParser.methodName()
-            var obj: Any
-            var metaClass: MetaClass
+            val parsed = groovyScriptParser.parse(it.content)
+            val methodName = groovyScriptParser.methodName()
+            val obj: Any
+            val metaClass: MetaClass
             if (parsed is DelegatingScript) {
                 obj = parsed.delegate
                 metaClass = InvokerHelper.getMetaClass(obj)
@@ -46,12 +45,11 @@ class DefaultGroovyScriptHandler(
                 obj = parsed
                 metaClass = parsed.metaClass
             }
-
             val method = metaClass.theClass.methods.firstOrNull { ce -> ce.name == methodName }
                     ?: throw RuntimeException("method $methodName not found exception")
+            groovyScriptParser.autowired(metaClass, obj)
             triggerHandler.handle(it) { parameter ->
-                val result = metaClass.invokeMethod(obj, methodName, parameter.invoke(method, ScriptParamNameDiscoverer(metaClass, obj)))
-                result
+                metaClass.invokeMethod(obj, methodName, parameter.invoke(method, ScriptParamNameDiscoverer(metaClass, obj)))
             }
         }
     }

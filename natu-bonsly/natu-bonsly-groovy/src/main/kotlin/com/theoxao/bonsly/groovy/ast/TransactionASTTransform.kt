@@ -59,7 +59,7 @@ open class TransactionASTTransform : ASTTransformation, ClassCodeExpressionTrans
             dc.addMethod(renamedMethod)
             val autowireNode =
                     FieldNode(
-                            "$TRANSACTION_MANGER_NAME${AutowiredASTTransform.AUTOWIRE_BEAN_SUFFIX}", 1,
+                            "$TRANSACTION_MANGER_NAME${AutowiredASTTransform.AUTOWIRE_BEAN}", 1,
                             tmNode, null, null
                     )
 //            dc.addField(autowireNode)
