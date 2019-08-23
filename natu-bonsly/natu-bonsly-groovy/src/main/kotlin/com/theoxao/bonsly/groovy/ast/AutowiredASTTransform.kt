@@ -85,8 +85,7 @@ class AutowiredASTTransform : ASTTransformation {
                         method
                     }
             val returnStatement = ((method.code as BlockStatement).statements[0] as ReturnStatement)
-            val list = arrayListOf<Expression>(ConstantExpression(de.name))
-            list.addAll((returnStatement.expression as ArrayExpression).expressions)
+            val list = arrayListOf<Expression>(*(returnStatement.expression as ArrayExpression).expressions.toTypedArray(), ConstantExpression(de.name))
             returnStatement.expression = ArrayExpression(JavaNodes.stringNode, list)
         }
     }
