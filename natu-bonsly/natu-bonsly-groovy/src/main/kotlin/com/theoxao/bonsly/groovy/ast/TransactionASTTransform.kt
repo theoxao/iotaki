@@ -9,6 +9,7 @@ import org.codehaus.groovy.GroovyBugError
 import org.codehaus.groovy.ast.*
 import org.codehaus.groovy.ast.expr.*
 import org.codehaus.groovy.ast.stmt.*
+import org.codehaus.groovy.ast.tools.GenericsUtils
 import org.codehaus.groovy.control.CompilePhase
 import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.syntax.Token
@@ -28,6 +29,7 @@ open class TransactionASTTransform : ASTTransformation, ClassCodeExpressionTrans
     private var sourceUnit: SourceUnit? = null
 
     companion object {
+        const val TRANSACTION_BEAN_NAME = "\$transactionBeanName"
         const val TRANSACTION_METHOD_SUFFIX = "\$transaction"
         const val TRANSACTION_MANGER_NAME = "tm"
         const val TRANSACTION_STATUS_NAME = "ts"
@@ -57,13 +59,27 @@ open class TransactionASTTransform : ASTTransformation, ClassCodeExpressionTrans
                     parent.code
             )
             dc.addMethod(renamedMethod)
-            val autowireNode =
-                    FieldNode(
-                            "$TRANSACTION_MANGER_NAME${AutowiredASTTransform.AUTOWIRE_BEAN}", 1,
-                            tmNode, null, null
-                    )
-//            dc.addField(autowireNode)
-            dc.addProperty(PropertyNode(autowireNode, autowireNode.modifiers, null, null))
+
+            val method =
+                    if (dc.hasMethod(AutowiredASTTransform.AUTOWIRE_BEAN, arrayOf())) {
+                        dc.getMethod(AutowiredASTTransform.AUTOWIRE_BEAN, arrayOf())
+                    } else {
+                        val listNode = GenericsUtils.makeClassSafeWithGenerics(JavaNodes.listNode, GenericsType(JavaNodes.stringNode))
+                        val returnStatement = ReturnStatement(
+                                ArrayExpression(JavaNodes.stringNode, null)
+                        )
+                        val block = BlockStatement()
+                        block.addStatement(returnStatement)
+                        val method = MethodNode(AutowiredASTTransform.AUTOWIRE_BEAN, dc.modifiers, listNode, arrayOf(), arrayOf(), block)
+                        method.declaringClass = dc.declaringClass
+                        dc.addMethod(method)
+                        method
+                    }
+            val returnStatement = ((method.code as BlockStatement).statements[0] as ReturnStatement)
+            val list = arrayListOf<Expression>(ConstantExpression(TRANSACTION_BEAN_NAME))
+            list.addAll((returnStatement.expression as ArrayExpression).expressions)
+            returnStatement.expression = ArrayExpression(JavaNodes.stringNode, list)
+
             val tmFieldNode =
                     FieldNode(TRANSACTION_MANGER_NAME, 1, tmNode, null, null)
             dc.addField(tmFieldNode)

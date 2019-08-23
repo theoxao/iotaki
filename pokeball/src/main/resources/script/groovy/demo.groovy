@@ -1,6 +1,9 @@
 package script.groovy
 
+import groovy.transform.Field
+
 import java.util.concurrent.CompletableFuture;
+
 
 public CompletableFuture<CompletableFuture<String>> asyncJava(String name, String age) {
     CompletableFuture<String> meFuture = future(name);
