@@ -11,5 +11,22 @@
 
     <artifactId>natu-aggron-git</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-cio</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-json-jvm</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-jackson</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+    </dependencies>
 
 </project>

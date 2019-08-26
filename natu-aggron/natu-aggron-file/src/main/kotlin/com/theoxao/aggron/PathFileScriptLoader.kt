@@ -21,7 +21,6 @@ import javax.annotation.Resource
 class PathFileScriptLoader : BaseScriptLoader() {
 
     companion object {
-        const val natuFileName = "natu.yaml"
         val log: Logger = LoggerFactory.getLogger(this::class.java.name)
     }
 
@@ -35,7 +34,7 @@ class PathFileScriptLoader : BaseScriptLoader() {
     }
 
 
-    override fun load(): List<ScriptModel> {
+    override suspend fun load(): List<ScriptModel> {
         val root = File(basePath + fileRootConfiguration.rootPath)
         assert(root.isDirectory) { "root path should be a directory instead of file" }
         val files = root.flatFiles(this, null)

@@ -13,6 +13,5 @@ import org.springframework.context.annotation.Configuration
 open class FileRootConfiguration {
 
     open var rootPath: String = "script"
-    open var usePathAsPartOfUri = true
 
 }

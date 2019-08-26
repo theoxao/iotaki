@@ -31,17 +31,19 @@ open class NatuAutoConfiguration(
     private val scriptHandlerCache: MutableMap<String, BaseScriptHandler> = mutableMapOf()
 
     init {
-        val scripts = loadScript()?.groupBy({ it.extension }, { it })
-        scripts?.forEach { ext, ss ->
+        GlobalScope.launch {
+            val scripts = loadScript()?.groupBy({ it.extension }, { it })
+            scripts?.forEach { ext, ss ->
 
-            val handler = findHandler(ext)
-            if (handler == null) {
-                log.debug("script handler which support \"$ext\" does not exist, skip all script with that extension")
-                return@forEach
-            }
-            GlobalScope.launch {
-                handler.triggers = triggerHandlers
-                handler.handle(ss)
+                val handler = findHandler(ext)
+                if (handler == null) {
+                    log.debug("script handler which support \"$ext\" does not exist, skip all script with that extension")
+                    return@forEach
+                }
+                this.launch {
+                    handler.triggers = triggerHandlers
+                    handler.handle(ss)
+                }
             }
         }
     }
@@ -53,7 +55,7 @@ open class NatuAutoConfiguration(
         return null
     }
 
-    private fun loadScript(): List<ScriptModel>? {
+    private suspend fun loadScript(): List<ScriptModel>? {
         return scriptLoaders.flatMap {
             it.value.load()
         }

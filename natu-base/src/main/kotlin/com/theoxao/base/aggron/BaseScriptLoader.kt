@@ -7,6 +7,9 @@ import com.theoxao.base.model.ScriptModel
  * @date 2019/5/28
  */
 abstract class BaseScriptLoader {
+    companion object {
+        const val natuFileName = "natu.yaml"
+    }
 
     var autoLoad = false
 
@@ -14,7 +17,7 @@ abstract class BaseScriptLoader {
 
     abstract fun refreshAll()
 
-    abstract fun load(): List<ScriptModel>
+    abstract suspend fun load(): List<ScriptModel>
 
     fun whenDelete(listener: (ScriptModel) -> Unit) {
 
