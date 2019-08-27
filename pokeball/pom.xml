@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.theoxao</groupId>
-            <artifactId>natu-aggron-file</artifactId>
+            <artifactId>natu-aggron-git</artifactId>
             <version>${natu.version}</version>
         </dependency>
         <dependency>

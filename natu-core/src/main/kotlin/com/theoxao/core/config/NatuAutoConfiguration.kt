@@ -34,7 +34,6 @@ open class NatuAutoConfiguration(
         GlobalScope.launch {
             val scripts = loadScript()?.groupBy({ it.extension }, { it })
             scripts?.forEach { ext, ss ->
-
                 val handler = findHandler(ext)
                 if (handler == null) {
                     log.debug("script handler which support \"$ext\" does not exist, skip all script with that extension")

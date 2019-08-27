@@ -1,7 +1,8 @@
-#natu:
-#  aggron:
-#    file:
-#      root-path: /
+natu:
+  aggron:
+    github:
+      uri: https://github.com/theoxao/natu
+      path: pokeball/src/main/resources/script
 spring:
   ktor:
     port:9999
