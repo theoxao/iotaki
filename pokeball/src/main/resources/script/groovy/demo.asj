@@ -10,12 +10,16 @@ class Foo{
     BarBean barBean;
 
     public String asyncJava(String name) {
-        String me = await future(name);
+        String me = await nestFuture(name);
         return me.concat(barBean.whatsMyName());
     }
 
     public CompletableFuture<String> future(String name) {
         return CompletableFuture.completedFuture(name + " from future;");
+    }
+
+    public String nestFuture(String name){
+        return  await future(name);
     }
 
 }

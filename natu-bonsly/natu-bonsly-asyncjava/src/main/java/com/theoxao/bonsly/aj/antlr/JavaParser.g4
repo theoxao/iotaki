@@ -225,18 +225,12 @@ variableDeclarators
     ;
 
 variableDeclarator
-    : variableDeclaratorId ('=' (variableInitializer | awaitVariableInitializer ))?
+    : variableDeclaratorId ('=' (variableInitializer))?
     ;
 
 variableDeclaratorId
     : IDENTIFIER ('[' ']')*
     ;
-
-awaitVariableInitializer
-    :AWAIT
-    (arrayInitializer
-     | expression
-    ) ;
 
 variableInitializer
     : arrayInitializer
@@ -510,7 +504,12 @@ expression
     | expression '::' typeArguments? IDENTIFIER
     | typeType '::' (typeArguments? IDENTIFIER | NEW)
     | classType '::' typeArguments? NEW
+    | awaitExpression
     ;
+
+awaitExpression:
+    AWAIT expression
+;
 
 // Java8
 lambdaExpression

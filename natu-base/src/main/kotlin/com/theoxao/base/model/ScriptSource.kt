@@ -1,7 +1,6 @@
 package com.theoxao.base.model
 
 import java.net.URI
-import java.net.URL
 
 /**
  * @author theoxao
@@ -19,6 +18,13 @@ class ScriptSource(var url: URI, var content: String) {
             return hash.and(0x7FFFFFFF)
         }
     }
+
+    constructor(url: URI, content: String, hash: Int) : this(url, content) {
+        this.hash = hash
+    }
+
+    constructor(url: URI, content: String, sha: String) : this(url, content, bkdrHash(sha))
+
 
     var hash: Int = 0
 

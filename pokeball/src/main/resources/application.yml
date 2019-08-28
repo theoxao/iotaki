@@ -3,6 +3,7 @@ natu:
     github:
       uri: https://github.com/theoxao/natu
       path: pokeball/src/main/resources/script
+      branch: master
 spring:
   ktor:
     port:9999

@@ -16,5 +16,6 @@ open class GithubConfiguration {
     var uri = ""
     var branch = "master"
     var path = ""
+    var beatRate = 1
     var packageAsRoute = false
 }

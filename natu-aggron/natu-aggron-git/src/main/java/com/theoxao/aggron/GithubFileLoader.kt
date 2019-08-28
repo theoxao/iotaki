@@ -14,7 +14,6 @@ import io.ktor.client.request.get
 import io.ktor.util.KtorExperimentalAPI
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-import org.springframework.util.ResourceUtils
 import org.springframework.util.StringUtils
 import org.yaml.snakeyaml.Yaml
 import java.net.URI
@@ -54,7 +53,7 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptL
     }
 
 
-    override fun notifyChange() =TODO()
+    override fun notifyChange() = TODO()
 
     private suspend fun feedChild(parents: List<GithubData>, parentDir: String, config: NatuConfig?): List<ScriptModel> {
         val routeScripts = mutableListOf<ScriptModel>()
@@ -84,7 +83,7 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptL
                     httpClient.get<String>(url)
                 } ?: ""
                 val record = ScriptModel(
-                        ScriptSource(URI(it.downloadUrl), content),
+                        ScriptSource(URI(it.downloadUrl), content, it.sha),
                         content,
                         extension(it.downloadUrl),
                         this,
@@ -106,7 +105,7 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptL
     private fun extension(path: String?): String {
         if (path == null) return ""
         val dot = path.lastIndexOf(".")
-        if (dot == -1) return ""
+        if (dot < 0) return ""
         return path.substring(dot + 1)
     }
 }

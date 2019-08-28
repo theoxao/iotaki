@@ -14,6 +14,7 @@ class GithubData {
     lateinit var path: String
     lateinit var relativePath: String
     lateinit var url: String
+    lateinit var sha: String
     @JsonProperty("download_url")
     var downloadUrl: String? = null
     lateinit var type: String
