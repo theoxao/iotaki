@@ -1,6 +1,8 @@
 package com.theoxao.aggron
 
 import com.theoxao.aggron.config.GithubConfiguration
+import com.theoxao.aggron.model.GithubData
+import io.ktor.client.request.get
 import io.ktor.util.KtorExperimentalAPI
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -15,20 +17,26 @@ class GitBeat(
         private val githubFileLoader: GithubFileLoader
 ) {
 
+    val currentSha = ""
+
     init {
         beat()
     }
 
-    fun beat() {
+    private fun beat() {
         var currentSha = ""
         GlobalScope.launch {
             while (true) {
                 delay(gitConfig.beatRate * 1000L)
-
+                val url = gitConfig.buildUrl(gitConfig.path)
+                val data = httpClient.get<GithubData>(url)
+                if (data.sha != currentSha) {
+                    currentSha = data.sha
+                    githubFileLoader.notifyChanged()
+                }
             }
         }
 
     }
-
 
 }

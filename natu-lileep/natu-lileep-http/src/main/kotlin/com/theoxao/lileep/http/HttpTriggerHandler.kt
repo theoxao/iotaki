@@ -74,7 +74,7 @@ class HttpTriggerHandler(
     }
 
     @ContextDsl
-    fun Route.markedRoute(path: String, method: HttpMethod, value: String, build: Route.() -> Unit): Route {
+    inline fun Route.markedRoute(path: String, method: HttpMethod, value: String, build: Route.() -> Unit): Route {
         val selector = HttpMethodRouteSelector(method)
         val createRouteFromPath = createRouteFromPath(path)
         val child = createRouteFromPath.createChild(selector)

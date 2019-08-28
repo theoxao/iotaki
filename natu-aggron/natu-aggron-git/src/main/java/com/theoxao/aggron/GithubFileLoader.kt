@@ -22,6 +22,18 @@ import java.net.URI
  * @author theo
  * @date 19-8-26
  */
+
+
+val httpClient = HttpClient(CIO) {
+    install(JsonFeature) {
+        serializer = JacksonSerializer()
+    }
+    engine {
+        maxConnectionsCount = 1000
+    }
+
+}
+
 @KtorExperimentalAPI
 @Component
 class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptLoader() {
@@ -30,15 +42,6 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptL
         val log = LoggerFactory.getLogger(this::class.java.name)!!
     }
 
-    private val httpClient = HttpClient(CIO) {
-        install(JsonFeature) {
-            serializer = JacksonSerializer()
-        }
-        engine {
-            maxConnectionsCount = 1000
-        }
-
-    }
 
     init {
         basePath = gitConfig.uri.removePrefix("https://github.com/") + gitConfig.branch
@@ -48,7 +51,7 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptL
 
     override suspend fun load(): List<ScriptModel> {
         if (StringUtils.isEmpty(gitConfig.uri)) return listOf()
-        val githubData = fetch(buildUrl(gitConfig.path))
+        val githubData = fetch(gitConfig.buildUrl(gitConfig.path))
         return feedChild(githubData, gitConfig.path, null)
     }
 
@@ -75,7 +78,7 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptL
             it.relativePath = it.path.removePrefix(gitConfig.path)
             if (it.type == "dir") {
                 val path = parentDir + "/" + it.name
-                it.child = fetch(buildUrl(path))
+                it.child = fetch(gitConfig.buildUrl(path))
                 routeScripts.addAll(feedChild(it.child, path, currentConfig))
             } else {
                 val content = it.downloadUrl?.let { url ->
@@ -97,9 +100,9 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptL
 
     private suspend fun fetch(packageUrl: String) = httpClient.get<List<GithubData>>(packageUrl)
 
-    private fun buildUrl(path: String): String {
-        return "https://api.github.com/repos/${gitConfig.uri.removePrefix("https://github.com/")}" +
-                "/contents/$path?ref=${gitConfig.branch}"
+
+    suspend fun notifyChanged() {
+
     }
 
     private fun extension(path: String?): String {
@@ -108,4 +111,10 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptL
         if (dot < 0) return ""
         return path.substring(dot + 1)
     }
+}
+
+
+fun GithubConfiguration.buildUrl(path: String): String {
+    return "https://api.github.com/repos/${this.uri.removePrefix("https://github.com/")}" +
+            "/contents/$path?ref=${this.branch}"
 }
