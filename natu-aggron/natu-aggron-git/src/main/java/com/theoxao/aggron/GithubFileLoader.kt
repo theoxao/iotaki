@@ -54,6 +54,8 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptL
     }
 
 
+    override fun notifyChange() =TODO()
+
     private suspend fun feedChild(parents: List<GithubData>, parentDir: String, config: NatuConfig?): List<ScriptModel> {
         val routeScripts = mutableListOf<ScriptModel>()
         val natuData = parents.firstOrNull { it.name == natuFileName && it.type != "dir" }

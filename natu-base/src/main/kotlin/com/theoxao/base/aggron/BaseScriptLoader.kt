@@ -17,6 +17,8 @@ abstract class BaseScriptLoader {
 
     abstract fun refreshAll()
 
+    abstract fun notifyChange()
+
     abstract suspend fun load(): List<ScriptModel>
 
     fun whenDelete(listener: (ScriptModel) -> Unit) {

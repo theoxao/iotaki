@@ -3,15 +3,19 @@ import com.theoxao.BarBean;
 import com.theoxao.bonsly.groovy.annotations.Autowired;
 import groovy.transform.Field
 
-@Autowired
-BarBean barBean;
 
-public String asyncJava() {
-    String me = await future("theo");
-    return me.concat(barBean.whatsMyName());
+class Foo{
+
+    @Autowired
+    BarBean barBean;
+
+    public String asyncJava(String name) {
+        String me = await future(name);
+        return me.concat(barBean.whatsMyName());
+    }
+
+    public CompletableFuture<String> future(String name) {
+        return CompletableFuture.completedFuture(name + " from future;");
+    }
+
 }
-
-public CompletableFuture<String> future(String name) {
-    return CompletableFuture.completedFuture(name + " from future;");
-}
-
