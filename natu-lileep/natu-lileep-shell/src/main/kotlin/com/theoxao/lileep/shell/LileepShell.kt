@@ -1,5 +1,6 @@
 package com.theoxao.lileep.shell
 
+import com.theoxao.base.model.ScriptModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
 import org.springframework.core.ParameterNameDiscoverer
@@ -8,6 +9,7 @@ import org.springframework.shell.Input
 import org.springframework.shell.Shell
 import java.lang.reflect.Method
 import java.util.stream.Collectors
+import kotlin.system.exitProcess
 
 /**
  * @author theo
@@ -19,16 +21,22 @@ class LileepShell(private val resultHandler: FutureResultHandler<Any>) : Shell(r
     private val scriptMap =
             mutableMapOf<String, suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?>()
 
+    private val hashMap = mutableMapOf<Int, String>()
 
     init {
         scriptMap["list"] = {
             "\n" +
                     scriptMap.keys.joinToString("\n")
         }
+        scriptMap["quit"] = {
+            exitProcess(0)
+        }
     }
 
-    suspend fun addScript(name: String, invoke: suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?) {
-        this.scriptMap[name] = invoke
+    suspend fun register(scriptModel: ScriptModel, invoke: suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?) {
+        val uri = scriptModel.scriptSource.url.path.removePrefix(scriptModel.loader.basePath ?: "")
+        this.scriptMap[uri] = invoke
+        this.hashMap[scriptModel.scriptSource.hash] = uri
     }
 
     override fun evaluate(input: Input): Any {
@@ -115,6 +123,10 @@ class LileepShell(private val resultHandler: FutureResultHandler<Any>) : Shell(r
                 .filter { command -> prefix == command || prefix.startsWith("$command ") }
                 .reduce("") { c1, c2 -> if (c1.length > c2.length) c1 else c2 }
         return if ("" == result) null else result
+    }
+
+    fun unregister(hash: Int) {
+        scriptMap.remove(hashMap[hash])
     }
 
 

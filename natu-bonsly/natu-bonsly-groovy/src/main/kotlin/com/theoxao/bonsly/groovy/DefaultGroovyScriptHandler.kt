@@ -48,7 +48,7 @@ class DefaultGroovyScriptHandler(
             val method = metaClass.theClass.methods.firstOrNull { ce -> ce.name == methodName }
                     ?: throw RuntimeException("method $methodName not found exception")
             groovyScriptParser.autowired(metaClass, obj)
-            triggerHandler.handle(it) { parameter ->
+            triggerHandler.register(it) { parameter ->
                 metaClass.invokeMethod(obj, methodName, parameter.invoke(method, ScriptParamNameDiscoverer(metaClass, obj)))
             }
         }

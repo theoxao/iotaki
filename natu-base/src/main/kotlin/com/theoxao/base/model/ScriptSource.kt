@@ -6,7 +6,10 @@ import java.net.URI
  * @author theoxao
  * @date 2019/5/28
  */
-class ScriptSource(var url: URI, var content: String) {
+class ScriptSource() {
+
+    lateinit var url: URI
+    lateinit var content: String
 
     companion object {
         fun bkdrHash(str: String): Int {
@@ -19,7 +22,11 @@ class ScriptSource(var url: URI, var content: String) {
         }
     }
 
-    constructor(url: URI, content: String, hash: Int) : this(url, content) {
+    constructor(url: URI, content: String) : this(url, content, content)
+
+    constructor(url: URI, content: String, hash: Int) : this() {
+        this.url = url
+        this.content = content
         this.hash = hash
     }
 

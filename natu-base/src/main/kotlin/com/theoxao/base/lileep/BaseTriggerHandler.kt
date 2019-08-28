@@ -12,5 +12,7 @@ abstract class BaseTriggerHandler {
 
     lateinit var name: String
 
-    abstract suspend fun handle(scriptModel: ScriptModel, invokeScript: suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?)
+    abstract suspend fun register(scriptModel: ScriptModel, invokeScript: suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?)
+
+    abstract suspend fun unregister(hash: Int)
 }

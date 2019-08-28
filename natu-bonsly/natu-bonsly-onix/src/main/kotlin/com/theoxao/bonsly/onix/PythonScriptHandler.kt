@@ -26,7 +26,7 @@ class PythonScriptHandler(
                 return@forEach
             }
 
-            triggerHandler.handle(it) { _ ->
+            triggerHandler.register(it) { _ ->
                 context.eval("python", it.content)
             }
         }

@@ -22,8 +22,16 @@ val cache =
 
 val children = mutableMapOf<String, ConfigurableApplicationContext>()
 
+val hashMap = mutableMapOf<Int, String>()
+
 @Component
 class AmqpTriggerHandler : BaseTriggerHandler() {
+
+    override suspend fun unregister(hash: Int) {
+        val key = hashMap[hash]
+        cache.remove(key)
+        key?.let { stop(it) }
+    }
 
     @Resource
     private lateinit var context: ApplicationContext
@@ -32,14 +40,14 @@ class AmqpTriggerHandler : BaseTriggerHandler() {
         name = "amqp"
     }
 
-    override suspend fun handle(scriptModel: ScriptModel, invokeScript: suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?) {
+    override suspend fun register(scriptModel: ScriptModel, invokeScript: suspend (parameter: suspend (Method, ParameterNameDiscoverer) -> Array<*>?) -> Any?) {
         val key = scriptModel.scriptSource.url.path.removePrefix(scriptModel.loader.basePath ?: "")
         println(key)
         cache[key] = invokeScript
         children[key] = addListener(key)
     }
 
-    fun stop(key: String) = children[key]?.stop()
+    private fun stop(key: String) = children[key]?.stop()
 
     private fun addListener(queue: String): AnnotationConfigApplicationContext {
         val child = AnnotationConfigApplicationContext()
