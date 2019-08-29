@@ -6,7 +6,7 @@ import java.net.URI
  * @author theoxao
  * @date 2019/5/28
  */
-class ScriptSource() {
+class ScriptSource {
 
     lateinit var url: URI
     lateinit var content: String
@@ -24,7 +24,7 @@ class ScriptSource() {
 
     constructor(url: URI, content: String) : this(url, content, content)
 
-    constructor(url: URI, content: String, hash: Int) : this() {
+    constructor(url: URI, content: String, hash: Int) {
         this.url = url
         this.content = content
         this.hash = hash
@@ -34,10 +34,5 @@ class ScriptSource() {
 
 
     var hash: Int = 0
-
-    init {
-        hash = content.hashCode()
-    }
-
 
 }
