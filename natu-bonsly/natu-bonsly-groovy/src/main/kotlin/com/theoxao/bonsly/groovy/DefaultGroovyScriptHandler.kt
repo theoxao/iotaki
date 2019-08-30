@@ -1,6 +1,7 @@
 package com.theoxao.bonsly.groovy
 
 import com.theoxao.base.bonsly.BaseGroovyScriptHandler
+import com.theoxao.base.model.BeanInfo
 import com.theoxao.base.model.ScriptModel
 import groovy.lang.MetaClass
 import groovy.util.DelegatingScript
@@ -52,6 +53,15 @@ class DefaultGroovyScriptHandler(
                 metaClass.invokeMethod(obj, methodName, parameter.invoke(method, ScriptParamNameDiscoverer(metaClass, obj)))
             }
         }
+    }
+
+    override fun getBean(scriptModel: ScriptModel): BeanInfo {
+        val parsed = groovyScriptParser.parse(scriptModel.content)
+        if (parsed is DelegatingScript) {
+            val obj = parsed.delegate
+            return BeanInfo("bean", InvokerHelper.getMetaClass(obj).theClass)
+        }
+        return BeanInfo("bean", parsed.metaClass.theClass)
     }
 
 }

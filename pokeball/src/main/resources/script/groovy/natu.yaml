@@ -6,7 +6,8 @@ trigger:
   name: shell
   type: path
 
-
+bean:
+  - Bean.groovy
 
 # shelve TODO next
 #except:

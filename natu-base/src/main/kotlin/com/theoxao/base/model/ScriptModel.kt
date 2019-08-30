@@ -12,7 +12,8 @@ class ScriptModel(
         var content: String,
         var extension: String,
         var loader: BaseScriptLoader,
-        var config: NatuConfig?
+        var config: NatuConfig?,
+        var shouldBean: Boolean = false
 ) {
 
     override fun toString(): String {

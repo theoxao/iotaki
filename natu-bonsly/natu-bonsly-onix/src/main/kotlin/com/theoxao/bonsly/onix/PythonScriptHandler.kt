@@ -1,9 +1,10 @@
 package com.theoxao.bonsly.onix
 
 import com.theoxao.base.bonsly.BaseGraalvmScriptHandler
-import com.theoxao.base.bonsly.groovy.DefaultGroovyScriptHandler
+import com.theoxao.base.model.BeanInfo
 import com.theoxao.base.model.ScriptModel
 import org.graalvm.polyglot.Context
+import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationContext
 
 class PythonScriptHandler(
@@ -11,21 +12,23 @@ class PythonScriptHandler(
 ) : BaseGraalvmScriptHandler() {
 
 
+    companion object {
+        val log = LoggerFactory.getLogger(this::class.java.name)
+    }
 
     init {
         supportedFileExtension = arrayOf("py")
     }
 
-    override fun handle(target: List<ScriptModel>) {
+    override suspend fun handle(target: List<ScriptModel>) {
         target.forEach {
             val context = Context.newBuilder("python").allowAllAccess(true).build()
             val triggerName = it.config?.trigger?.get("name") ?: "http"
             val triggerHandler = triggers[triggerName]
             if (triggerHandler == null) {
-                DefaultGroovyScriptHandler.log.debug("trigger named \"$triggerName\" does not exist , ignore script ${it.scriptSource.url.path}")
+                log.debug("trigger named \"$triggerName\" does not exist , ignore script ${it.scriptSource.url.path}")
                 return@forEach
             }
-
             triggerHandler.register(it) { _ ->
                 context.eval("python", it.content)
             }
@@ -33,5 +36,8 @@ class PythonScriptHandler(
 
     }
 
+    override fun getBean(scriptModel: ScriptModel): BeanInfo {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 }

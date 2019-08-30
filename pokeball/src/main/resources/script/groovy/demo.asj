@@ -1,7 +1,8 @@
 import java.util.concurrent.CompletableFuture;
 import com.theoxao.BarBean;
 import com.theoxao.bonsly.groovy.annotations.Autowired;
-import groovy.transform.Field
+import groovy.transform.Field;
+import script.groovy.Bean;
 
 
 class Foo{
@@ -9,9 +10,13 @@ class Foo{
     @Autowired
     BarBean barBean;
 
+    @Autowired
+    Bean bean
+
     public String asyncJava(String name) {
+        println(barBean.whatsMyName())
         String me = await nestFuture(name);
-        return me.concat(barBean.whatsMyName());
+        return me.concat(bean.bean("boy"));
     }
 
     public CompletableFuture<String> future(String name) {

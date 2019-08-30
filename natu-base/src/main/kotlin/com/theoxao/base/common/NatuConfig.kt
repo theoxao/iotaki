@@ -6,6 +6,8 @@ class NatuConfig {
 
     lateinit var trigger: Map<String, String>
 
+    lateinit var bean: List<String>
+
     lateinit var except: List<Except>
 }
 

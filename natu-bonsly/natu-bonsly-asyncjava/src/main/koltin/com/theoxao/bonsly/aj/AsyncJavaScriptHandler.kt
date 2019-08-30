@@ -1,6 +1,7 @@
 package com.theoxao.bonsly.aj
 
 import com.theoxao.base.bonsly.BaseScriptHandler
+import com.theoxao.base.model.BeanInfo
 import com.theoxao.base.model.ScriptModel
 import com.theoxao.bonsly.groovy.DefaultGroovyScriptHandler
 import org.springframework.stereotype.Component
@@ -27,4 +28,7 @@ class AsyncJavaScriptHandler(
         groovyScriptHandler.handle(target)
     }
 
+    override fun getBean(scriptModel: ScriptModel): BeanInfo {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

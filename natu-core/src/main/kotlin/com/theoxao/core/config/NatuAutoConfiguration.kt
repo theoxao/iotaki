@@ -3,6 +3,7 @@ package com.theoxao.core.config
 import com.theoxao.base.aggron.BaseScriptLoader
 import com.theoxao.base.bonsly.BaseScriptHandler
 import com.theoxao.base.lileep.BaseTriggerHandler
+import com.theoxao.base.model.BeanInfo
 import com.theoxao.base.model.ScriptModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -12,7 +13,8 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 open class NatuAutoConfiguration(
-        applicationContext: ApplicationContext
+        private val applicationContext: ApplicationContext,
+        private val beanHelper: BeanHelper
 ) {
 
     companion object {
@@ -39,9 +41,13 @@ open class NatuAutoConfiguration(
                     log.debug("script handler which support \"$ext\" does not exist, skip all script with that extension")
                     return@forEach
                 }
+                ss.filter { it.shouldBean }.forEach {
+                    val beanInfo: BeanInfo = handler.getBean(it)
+                    beanHelper.registerBean(beanInfo)
+                }
                 this.launch {
                     handler.triggers = triggerHandlers
-                    handler.handle(ss)
+                    handler.handle(ss.filter { !it.shouldBean })
                 }
             }
         }

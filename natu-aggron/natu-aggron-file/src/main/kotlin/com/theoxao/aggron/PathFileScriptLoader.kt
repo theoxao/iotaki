@@ -57,7 +57,13 @@ class PathFileScriptLoader : BaseScriptLoader() {
                 list.addAll(it.flatFiles(loader, natuConfig))
             else {
                 val content = it.readText()
-                list.add(ScriptModel(ScriptSource(it.toURI(), content), content, it.extension, loader, natuConfig))
+                list.add(ScriptModel(
+                        ScriptSource(it.toURI(), content),
+                        content,
+                        it.extension,
+                        loader,
+                        natuConfig,
+                        natuConfig?.bean?.contains(it.name) ?: false))
             }
             return@flatMap list
         } ?: arrayListOf()
