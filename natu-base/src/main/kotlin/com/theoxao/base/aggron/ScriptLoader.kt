@@ -6,7 +6,7 @@ import com.theoxao.base.model.ScriptModel
  * @author theoxao
  * @date 2019/5/28
  */
-abstract class BaseScriptLoader {
+abstract class ScriptLoader {
     companion object {
         const val natuFileName = "natu.yaml"
     }

@@ -1,6 +1,6 @@
 package com.theoxao.lileep.shell
 
-import com.theoxao.base.lileep.BaseTriggerHandler
+import com.theoxao.base.lileep.TriggerHandler
 import com.theoxao.base.model.ScriptModel
 import org.springframework.core.ParameterNameDiscoverer
 import org.springframework.shell.Shell
@@ -12,7 +12,7 @@ import java.lang.reflect.Method
  * @date 19-8-13
  */
 @Component
-class ShellTriggerHandler(private val shell: Shell) : BaseTriggerHandler() {
+class ShellTriggerHandler(private val shell: Shell) : TriggerHandler() {
 
 
     override suspend fun unregister(hash: Int) {

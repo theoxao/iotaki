@@ -1,6 +1,6 @@
 package com.theoxao.base.model
 
-import com.theoxao.base.lileep.BaseTriggerHandler
+import com.theoxao.base.lileep.TriggerHandler
 
 /**
  * @author theoxao
@@ -10,6 +10,6 @@ class Trigger {
 
     lateinit var type: String
 
-    lateinit var handler: Class<in BaseTriggerHandler>
+    lateinit var handler: Class<in TriggerHandler>
 
 }

@@ -1,8 +1,8 @@
 package com.theoxao.core.config
 
-import com.theoxao.base.aggron.BaseScriptLoader
-import com.theoxao.base.bonsly.BaseScriptHandler
-import com.theoxao.base.lileep.BaseTriggerHandler
+import com.theoxao.base.aggron.ScriptLoader
+import com.theoxao.base.bonsly.ScriptHandler
+import com.theoxao.base.lileep.TriggerHandler
 import com.theoxao.base.model.BeanInfo
 import com.theoxao.base.model.ScriptModel
 import kotlinx.coroutines.GlobalScope
@@ -22,15 +22,15 @@ open class NatuAutoConfiguration(
     }
 
     private val scriptLoaders =
-            applicationContext.getBeansOfType(BaseScriptLoader::class.java)
+            applicationContext.getBeansOfType(ScriptLoader::class.java)
 
     private val scriptHandlers =
-            applicationContext.getBeansOfType(BaseScriptHandler::class.java).values.associateBy { it.supportedFileExtension }
+            applicationContext.getBeansOfType(ScriptHandler::class.java).values.associateBy { it.supportedFileExtension }
 
     private val triggerHandlers =
-            applicationContext.getBeansOfType(BaseTriggerHandler::class.java).values.associateBy { it.name }
+            applicationContext.getBeansOfType(TriggerHandler::class.java).values.associateBy { it.name }
 
-    private val scriptHandlerCache: MutableMap<String, BaseScriptHandler> = mutableMapOf()
+    private val scriptHandlerCache: MutableMap<String, ScriptHandler> = mutableMapOf()
 
     init {
         GlobalScope.launch {
@@ -53,7 +53,7 @@ open class NatuAutoConfiguration(
         }
     }
 
-    private fun findHandler(ext: String): BaseScriptHandler? {
+    private fun findHandler(ext: String): ScriptHandler? {
         for (it in scriptHandlers) {
             if (it.key.contains(ext)) return it.value
         }

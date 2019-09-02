@@ -8,7 +8,7 @@ import java.lang.reflect.Method
  * @author theoxao
  * @date 2019/5/28
  */
-abstract class BaseTriggerHandler {
+abstract class TriggerHandler {
 
     lateinit var name: String
 

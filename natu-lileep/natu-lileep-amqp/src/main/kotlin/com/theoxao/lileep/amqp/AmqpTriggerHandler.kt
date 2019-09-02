@@ -1,7 +1,7 @@
 package com.theoxao.lileep.amqp
 
 import com.isolate.ListenerConfig
-import com.theoxao.base.lileep.BaseTriggerHandler
+import com.theoxao.base.lileep.TriggerHandler
 import com.theoxao.base.model.ScriptModel
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ConfigurableApplicationContext
@@ -25,7 +25,7 @@ val children = mutableMapOf<String, ConfigurableApplicationContext>()
 val hashMap = mutableMapOf<Int, String>()
 
 @Component
-class AmqpTriggerHandler : BaseTriggerHandler() {
+class AmqpTriggerHandler : TriggerHandler() {
 
     override suspend fun unregister(hash: Int) {
         val key = hashMap[hash]

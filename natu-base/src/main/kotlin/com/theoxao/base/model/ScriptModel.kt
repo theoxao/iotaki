@@ -1,6 +1,6 @@
 package com.theoxao.base.model
 
-import com.theoxao.base.aggron.BaseScriptLoader
+import com.theoxao.base.aggron.ScriptLoader
 import com.theoxao.base.common.NatuConfig
 
 /**
@@ -11,7 +11,7 @@ class ScriptModel(
         var scriptSource: ScriptSource,
         var content: String,
         var extension: String,
-        var loader: BaseScriptLoader,
+        var loader: ScriptLoader,
         var config: NatuConfig?,
         var shouldBean: Boolean = false
 ) {

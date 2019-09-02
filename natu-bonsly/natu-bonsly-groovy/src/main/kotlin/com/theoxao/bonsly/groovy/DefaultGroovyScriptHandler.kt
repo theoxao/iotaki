@@ -1,6 +1,6 @@
 package com.theoxao.bonsly.groovy
 
-import com.theoxao.base.bonsly.BaseGroovyScriptHandler
+import com.theoxao.base.bonsly.GroovyScriptHandler
 import com.theoxao.base.model.BeanInfo
 import com.theoxao.base.model.ScriptModel
 import groovy.lang.MetaClass
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component
 class DefaultGroovyScriptHandler(
         applicationContext: ApplicationContext,
         private val groovyScriptParser: DefaultGroovyScriptParser
-) : BaseGroovyScriptHandler(applicationContext) {
+) : GroovyScriptHandler(applicationContext) {
 
     companion object {
         val log: Logger = LoggerFactory.getLogger(this::class.java.name)

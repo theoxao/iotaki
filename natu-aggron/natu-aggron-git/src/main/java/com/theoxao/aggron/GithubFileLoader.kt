@@ -2,7 +2,7 @@ package com.theoxao.aggron
 
 import com.theoxao.aggron.config.GithubConfiguration
 import com.theoxao.aggron.model.GithubData
-import com.theoxao.base.aggron.BaseScriptLoader
+import com.theoxao.base.aggron.ScriptLoader
 import com.theoxao.base.common.NatuConfig
 import com.theoxao.base.model.ScriptModel
 import com.theoxao.base.model.ScriptSource
@@ -36,7 +36,7 @@ val httpClient = HttpClient(CIO) {
 
 @KtorExperimentalAPI
 @Component
-class GithubFileLoader(private val gitConfig: GithubConfiguration) : BaseScriptLoader() {
+class GithubFileLoader(private val gitConfig: GithubConfiguration) : ScriptLoader() {
 
     companion object {
         val log = LoggerFactory.getLogger(this::class.java.name)!!

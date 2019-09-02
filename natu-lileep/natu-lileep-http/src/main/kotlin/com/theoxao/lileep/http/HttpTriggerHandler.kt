@@ -1,6 +1,6 @@
 package com.theoxao.lileep.http
 
-import com.theoxao.base.lileep.BaseTriggerHandler
+import com.theoxao.base.lileep.TriggerHandler
 import com.theoxao.base.model.ScriptModel
 import com.theoxao.configuration.handlerParam
 import io.ktor.application.call
@@ -28,7 +28,7 @@ import kotlin.reflect.jvm.javaField
 @Component
 class HttpTriggerHandler(
         private val applicationEngine: ApplicationEngine
-) : BaseTriggerHandler() {
+) : TriggerHandler() {
 
     companion object {
         const val triggerTypeKey = "type"

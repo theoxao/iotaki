@@ -1,7 +1,7 @@
 package com.theoxao.aggron
 
 import com.theoxao.aggron.config.FileRootConfiguration
-import com.theoxao.base.aggron.BaseScriptLoader
+import com.theoxao.base.aggron.ScriptLoader
 import com.theoxao.base.common.NatuConfig
 import com.theoxao.base.model.ScriptModel
 import com.theoxao.base.model.ScriptSource
@@ -18,7 +18,7 @@ import javax.annotation.Resource
  * @date 2019/5/28
  */
 @Component
-class PathFileScriptLoader : BaseScriptLoader() {
+class PathFileScriptLoader : ScriptLoader() {
 
     override fun notifyChange() = TODO()
 
@@ -44,7 +44,7 @@ class PathFileScriptLoader : BaseScriptLoader() {
         return files
     }
 
-    private fun File.flatFiles(loader: BaseScriptLoader, parentConfig: NatuConfig?): List<ScriptModel> {
+    private fun File.flatFiles(loader: ScriptLoader, parentConfig: NatuConfig?): List<ScriptModel> {
         val files = this.listFiles()
         val natu = files?.find { it.isFile && it.name == natuFileName }?.readText()
         //if config does not exist , use parent config

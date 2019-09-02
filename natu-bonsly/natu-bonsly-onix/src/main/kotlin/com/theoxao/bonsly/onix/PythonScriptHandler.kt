@@ -1,6 +1,6 @@
 package com.theoxao.bonsly.onix
 
-import com.theoxao.base.bonsly.BaseGraalvmScriptHandler
+import com.theoxao.base.bonsly.GraalvmScriptHandler
 import com.theoxao.base.model.BeanInfo
 import com.theoxao.base.model.ScriptModel
 import org.graalvm.polyglot.Context
@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext
 
 class PythonScriptHandler(
         private val applicationContext: ApplicationContext
-) : BaseGraalvmScriptHandler() {
+) : GraalvmScriptHandler() {
 
 
     companion object {
