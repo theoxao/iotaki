@@ -1,7 +1,7 @@
-natu:
+iotaki:
   aggron:
     github:
-      uri: https://github.com/theoxao/natu
+      uri: https://github.com/theoxao/iotaki
       path: pokeball/src/main/resources/script
       branch: master
 spring:

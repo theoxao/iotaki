@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.theoxao.core.config.NatuAutoConfiguration
