@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.theoxao</groupId>
-            <artifactId>natu-base</artifactId>
+            <artifactId>iotaki-base</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
