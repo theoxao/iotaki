@@ -48,7 +48,7 @@ class LileepShell(private val resultHandler: FutureResultHandler<Any>) : Shell(r
         val command = findLongestCommand(line) ?: ""
         if (scriptMap.containsKey(command)) {
             return GlobalScope.future {
-                scriptMap[command]?.invoke { method, discoverer ->
+                return@future scriptMap[command]?.invoke { method, discoverer ->
                     val names = discoverer.getParameterNames(method)
                     return@invoke words.wordsForArguments(command).resolveArgs(names)
                 }

@@ -1,6 +1,7 @@
 package com.theoxao.bonsly.groovy
 
 import com.theoxao.bonsly.groovy.ast.AutowiredASTTransform.Companion.AUTOWIRE_BEAN
+import com.theoxao.bonsly.groovy.ast.ParameterNameTransform.Companion.METHOD_NAMES
 import com.theoxao.bonsly.groovy.ast.TransactionASTTransform.Companion.TRANSACTION_BEAN_NAME
 import groovy.lang.MetaClass
 import org.codehaus.groovy.runtime.InvokerHelper
@@ -39,6 +40,8 @@ class DefaultGroovyScriptParser(private val applicationContext: ApplicationConte
         return meta.invokeMethod(obj, AUTOWIRE_BEAN, InvokerHelper.EMPTY_ARGS) as List<String>
     }
 
-    fun methodName(): String = "asyncJava"
+    fun methodName(meta: MetaClass, obj: Any): String {
+        return (meta.invokeMethod(obj, METHOD_NAMES, InvokerHelper.EMPTY_ARGS) as List<String>)[0]
+    }
 
 }

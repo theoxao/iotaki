@@ -1,5 +1,6 @@
 package com.theoxao.bonsly.groovy.ast
 
+import com.theoxao.bonsly.groovy.annotations.Main
 import groovy.transform.Field
 import org.codehaus.groovy.ast.ClassHelper.make
 import org.codehaus.groovy.ast.ClassNode
@@ -11,6 +12,7 @@ object JavaNodes {
     val anyNode = make(Any::class.java)!!
     val exceptionNode = make(Exception::class.java)!!
     val fieldAnnotationNode = make(Field::class.java)
+    val mainNode = make(Main::class.java)
 
     val tsNode: ClassNode? = try {
         make(Class.forName("org.springframework.transaction.TransactionStatus"))

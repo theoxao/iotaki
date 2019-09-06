@@ -1,6 +1,7 @@
 package com.theoxao.bonsly.groovy.ast
 
 import com.theoxao.bonsly.groovy.ast.JavaNodes.listNode
+import com.theoxao.bonsly.groovy.ast.JavaNodes.mainNode
 import com.theoxao.bonsly.groovy.ast.JavaNodes.stringNode
 import org.codehaus.groovy.GroovyException
 import org.codehaus.groovy.ast.*
@@ -24,6 +25,7 @@ class ParameterNameTransform : ASTTransformation {
 
     companion object {
         const val PARAMETER_NAMES_FIELD_SUFFIX = "\$parameterNames"
+        const val METHOD_NAMES = "\$methodNames\$"
     }
 
     override fun visit(nodes: Array<out ASTNode>?, source: SourceUnit?) {
@@ -50,6 +52,16 @@ class ParameterNameTransform : ASTTransformation {
             method.toString()
             addMethod.add(method)
         }
+        val block = BlockStatement()
+        val mainMethod = methods.firstOrNull { it.annotations.map { an -> an.classNode }.contains(mainNode) }
+        block.addStatement(ReturnStatement(ArrayExpression(stringNode,
+                if (mainMethod == null) methods.map { ConstantExpression(it.name) }
+                else arrayListOf(ConstantExpression(mainMethod.name))
+        )))
+        val listNode = GenericsUtils.makeClassSafeWithGenerics(listNode, GenericsType(stringNode))
+        val methodNames = MethodNode(METHOD_NAMES, 1, listNode, arrayOf(), arrayOf(), block)
+        methodNames.declaringClass = firstClass
+        firstClass.addMethod(methodNames)
         addMethod.forEach(firstClass::addMethod)
     }
 

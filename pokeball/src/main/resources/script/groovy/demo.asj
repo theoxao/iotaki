@@ -14,7 +14,8 @@ class Foo{
     Bean bean
 
     public String asyncJava(String name) {
-        println(barBean.whatsMyName())
+        // println(barBean.whatsMyName())
+        println(bean)
         String me = await nestFuture(name);
         return me.concat(bean.bean("boy"));
     }

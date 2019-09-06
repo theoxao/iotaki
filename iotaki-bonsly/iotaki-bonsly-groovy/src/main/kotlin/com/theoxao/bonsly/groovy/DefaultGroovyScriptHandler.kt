@@ -30,6 +30,7 @@ class DefaultGroovyScriptHandler(
 
     override suspend fun handle(target: List<ScriptModel>) {
         target.forEach {
+            //FIXME if not config , try to use exist handler instead of fixed one
             val triggerName = it.config?.trigger?.get("name") ?: "http"
             val triggerHandler = triggers[triggerName]
             if (triggerHandler == null) {
@@ -37,7 +38,6 @@ class DefaultGroovyScriptHandler(
                 return@forEach
             }
             val parsed = groovyScriptParser.parse(it.content)
-            val methodName = groovyScriptParser.methodName()
             val obj: Any
             val metaClass: MetaClass
             if (parsed is DelegatingScript) {
@@ -47,6 +47,7 @@ class DefaultGroovyScriptHandler(
                 obj = parsed
                 metaClass = parsed.metaClass
             }
+            val methodName = groovyScriptParser.methodName(metaClass, obj)
             val method = metaClass.theClass.methods.firstOrNull { ce -> ce.name == methodName }
                     ?: throw RuntimeException("method $methodName not found exception")
             groovyScriptParser.autowired(metaClass, obj)
