@@ -20,7 +20,7 @@ import javax.annotation.Resource
 @Component
 class PathFileScriptLoader : ScriptLoader() {
 
-    override fun notifyChange() = TODO()
+    override suspend fun notifyChanged() = TODO()
 
     companion object {
         val log: Logger = LoggerFactory.getLogger(this::class.java.name)

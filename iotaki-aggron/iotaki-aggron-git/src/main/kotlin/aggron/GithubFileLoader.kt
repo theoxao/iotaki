@@ -56,8 +56,6 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : ScriptLoade
     }
 
 
-    override fun notifyChange() = TODO()
-
     private suspend fun feedChild(parents: List<GithubData>, parentDir: String, config: IotakiConfig?): List<ScriptModel> {
         val routeScripts = mutableListOf<ScriptModel>()
         val iotakiData = parents.firstOrNull { it.name == iotakiFileName && it.type != "dir" }
@@ -95,13 +93,14 @@ class GithubFileLoader(private val gitConfig: GithubConfiguration) : ScriptLoade
                 routeScripts.add(record)
             }
         }
+        scriptCache = routeScripts
         return routeScripts
     }
 
     private suspend fun fetch(packageUrl: String) = httpClient.get<List<GithubData>>(packageUrl)
 
 
-    suspend fun notifyChanged() {
+    override suspend fun notifyChanged() {
 
     }
 

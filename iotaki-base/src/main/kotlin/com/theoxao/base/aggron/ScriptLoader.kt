@@ -11,13 +11,15 @@ abstract class ScriptLoader {
         const val iotakiFileName = "iotaki.yaml"
     }
 
+    var scriptCache = mutableListOf<ScriptModel>()
+
     var autoLoad = false
 
     var basePath: String? = null
 
     abstract fun refreshAll()
 
-    abstract fun notifyChange()
+    abstract suspend fun notifyChanged()
 
     abstract suspend fun load(): List<ScriptModel>
 

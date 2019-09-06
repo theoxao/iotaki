@@ -1,7 +1,6 @@
 package script.groovy
 
 import com.theoxao.bonsly.groovy.annotations.Main
-import groovy.transform.Field
 
 import java.util.concurrent.CompletableFuture;
 
