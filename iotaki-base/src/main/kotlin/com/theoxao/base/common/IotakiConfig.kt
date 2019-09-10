@@ -4,7 +4,7 @@ class IotakiConfig {
 
     lateinit var ignore: List<String>
 
-    lateinit var trigger: Map<String, String>
+    var trigger: Map<String, String> = mutableMapOf()
 
     lateinit var bean: List<String>
 

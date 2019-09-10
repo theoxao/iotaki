@@ -31,8 +31,8 @@ class DefaultGroovyScriptHandler(
     override suspend fun handle(target: List<ScriptModel>) {
         target.forEach {
             //FIXME if not config , try to use exist handler instead of fixed one
-            val triggerName = it.config?.trigger?.get("name") ?: "http"
-            val triggerHandler = triggers[triggerName]
+            val triggerName = it.config?.trigger?.get("name")
+            val triggerHandler = if (triggerName != null) triggers[triggerName] else triggers.values.firstOrNull()
             if (triggerHandler == null) {
                 log.debug("trigger named \"$triggerName\" does not exist , ignore script ${it.scriptSource.url.path}")
                 return@forEach
