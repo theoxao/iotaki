@@ -17,14 +17,13 @@ class GitBeat(
         private val githubFileLoader: GithubFileLoader
 ) {
 
-    val currentSha = ""
+    var currentSha = ""
 
     init {
         beat()
     }
 
     private fun beat() {
-        var currentSha = ""
         GlobalScope.launch {
             while (true) {
                 delay(gitConfig.beatRate * 1000L)
